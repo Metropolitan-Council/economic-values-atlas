@@ -1,0 +1,33 @@
+Package: eva_app
+Title: An Amazing Shiny App
+Version: 0.0.0.9000
+Authors@R: 
+      c(person(given = "Metropolitan Council",
+             role = "cph"),
+      person(given = "Ellen",
+             family = "Esch",
+             role = c("cre", "aut"),
+             comment = c(ORCID = "https://orcid.org/0000-0002-4253-0910")))
+Description: EVA tool for the Twin Cities region.
+License: MIT + file LICENSE
+Depends: 
+    R (>= 2.10)
+Imports: 
+    config,
+    golem,
+    shiny,
+    councilR,
+    leaflet,
+    leaflet.extras,
+    magrittr,
+    sf,
+    htmltools,
+    tibble,
+    forcats,
+    stringr,
+    ggplot2
+Remotes:
+    Metropolitan-Council/councilR
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1

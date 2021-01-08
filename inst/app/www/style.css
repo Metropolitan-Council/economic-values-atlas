@@ -1,0 +1,156 @@
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: 300;
+  color: var(--council-blue);
+  font-family: Light, Helvetica, Tahoma, Geneva, "Arial Narrow", Arial,  sans-serif;
+}
+
+h1 { font-size: 4.0rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h2 { font-size: 3.6rem; line-height: 1.25; letter-spacing: -.1rem; }
+h3 { font-size: 3.0rem; line-height: 1.3;  letter-spacing: -.1rem; }
+h4 { font-size: 2.5rem; line-height: 1.35; letter-spacing: -.08rem; }
+h5 { font-size: 2.0rem; line-height: 1.3;  letter-spacing: -.05rem; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+body {
+	font-size: 1.45rem;
+	line-height: 1.6;
+	font-weight: 100;
+	font-family: Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif;
+	background-color: var(--council-white);
+	color: var(--council-black);
+	max-width: 100%;
+}
+
+p {
+	margin: 0 0 10px;
+	font-size: 1.55rem;
+}
+
+b, strong {
+	font-family: Medium !important;
+	font-weight: 100 !important;
+}
+
+hr {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 0;
+	border-top: 1px solid #eee;
+	width: 99%;
+}
+
+/*
+#input_demos_ui_1-inputCensusTracts {
+	margin-left: 5%;
+	z-index: 900;
+}
+
+#notes {
+	margin-left: 4%;
+	margin-right: 4%;
+	width: 90%;
+}
+
+#mod_summary_ggplot_ui_1-text_info {
+  font-size: 1.6rem;
+}
+*/
+
+/*
+.navbar.navbar-default.navbar-static-top {
+	margin-bottom: 12px;
+}
+
+*/
+.navbar-default {
+	background-color: var(--council-gray);
+	border-color: var(--council-gray);
+	color: var(--council-blue);
+	font-size: 16px; 
+	text-transform: uppercase;
+	margin-right: 10px;
+	margin-left: 10px;
+  font-family: Bold-Condensed, "Helvetica", "Tahoma", "Geneva", "Arial Narrow", "Arial", sans-serif;
+	height: 95px;
+	width: 100%;
+	padding-right: 10%;
+	padding-left: 10%;
+}
+
+
+.navbar-brand {
+  font-family: Bold-Condensed, "Helvetica", "Tahoma", "Geneva", "Arial Narrow", "Arial", sans-serif;
+  color: var(--council-blue);
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: var(--council-blue);
+  height: 95px;
+  padding-top: 39.5px;
+  padding-bottom: 39.5px;
+}
+
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+	color: var(--council-blue);
+	background-color: #d6d6d6;
+}
+
+/* //unclear what this is doing
+.navbar-default .navbar-brand {
+	color: var(--council-blue);//ack);
+}
+*/
+
+
+/* //this is presumable how to add a blue bar on top
+.navbar-header {
+ // margin: 1%;
+  height: 5px; 
+//  width: 100%;
+  color: #0054a4;
+}
+*/
+
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+  color:var(--council-blue);
+	background-color: #d6d6d6;
+	height: 95px;
+}
+/*
+.navbar-nav {
+	float: right;
+	margin: 0;
+}
+*/
+
+.tab-content {
+	min-width: 950px;
+	padding: 5px;
+	margin-left: 10%;
+	width: 80%;
+	margin-right: 10%;
+	max-width: 100%;
+}
+
+.well {
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px;
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+	box-shadow: inset 0 1px 1px transparent;
+}
+
+
+
+.leaflet-popup-content {
+  margin: 13px 19px;
+  line-height: 1.4;
+  font-size: 150%;
+}
+
