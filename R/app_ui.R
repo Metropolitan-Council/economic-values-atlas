@@ -23,26 +23,26 @@ app_ui <- function(request) {
                   "body {padding-top: 75px;}"),
                
                
-               tabPanel("HOME", mod_home_ui("home_ui_1")
-    ),
+               tabPanel("HOME", mod_home_ui("home_ui_1"),
+                        sidebarPanel(width = 3, mod_layerselection_ui("layerselection_ui_1")),
+                                 mainPanel(width = 9,
+
+                                   fluidRow(mod_evamap_ui("evamap_ui_1")),
+                                   hr(),
+                                   fluidRow(
+                                     column(6,mod_evabar_ui("evabar_ui_1")),
+                                     column(6, mod_evaspider_ui("evaspider_ui_1")))
+    )),
     
-    tabPanel("MAP", 
-             sidebarPanel(mod_layerselection_ui("layerselection_ui_1")),
-             mainPanel(
-               
-               fluidRow(mod_evamap_ui("evamap_ui_1")),
-               hr(),
-               fluidRow(mod_evabar_ui("evabar_ui_1")),
-               hr(),
-               fluidRow(mod_evaspider_ui("evaspider_ui_1")),
-               
-                 )
-               ),
-    
-    tabPanel("NOTES", mod_notes_ui("notes_ui_1"))
-    
+    navbarMenu("Notes",
+               tabPanel("Data Sources", mod_notes_ui("notes_ui_1")),
+               "----",
+               "Future steps",
+               tabPanel("Example"),
+               tabPanel("Example2")
     )
-  )
+    
+    ))
 }
 
 #' Add external Resources to the Application
