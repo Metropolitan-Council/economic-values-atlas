@@ -11,6 +11,8 @@ mod_evabar_ui <- function(id){
   ns <- NS(id)
   tagList(
  
+    plotOutput(ns("bargraph"), height = 300),
+    
   )
 }
     
@@ -20,6 +22,23 @@ mod_evabar_ui <- function(id){
 mod_evabar_server <- function(input, output, session){
   ns <- session$ns
  
+  output$bargraph <- renderPlot({
+    
+    tibble(Score = c(1:6),
+           Type = rep(c("Infrastructure", "Resilence", "Equity"), 2),
+           Selection = rep(c("Selected Tract", "Tract Average"), each = 3)) %>%
+      ggplot(aes(x = Score, 
+                 y = Type, 
+                 fill = Selection)) +
+      geom_bar(stat = "identity",
+               position = position_dodge(width = .9))+
+      council_theme() +
+      scale_fill_brewer(palette = "Paired") +
+      theme(legend.position = "bottom")
+    
+  })
+    
+  
 }
     
 ## To be copied in the UI

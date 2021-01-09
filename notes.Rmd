@@ -1,0 +1,19 @@
+---
+output: 
+  github_document:
+    html_preview: false
+params: 
+  actor_id: "esch" 
+  data_date: "2021-01-08"
+  sha: "sha"
+---
+
+\br
+\br
+\br
+
+## .
+
+## Notes
+
+Something about data sources/accuracy etc. 

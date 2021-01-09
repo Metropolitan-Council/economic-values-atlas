@@ -14,13 +14,33 @@ app_ui <- function(request) {
                 theme = "www/style.css",
                 collapsible = TRUE,
                 inverse = TRUE,
-                windowTitle = "Los Angeles County Career PathFinder",
+                windowTitle = "EVA",
                 position = "fixed-top",
                 header = tags$style(
                   ".navbar-right {
                        float: right !important;
                        }",
-                  "body {padding-top: 75px;}")
+                  "body {padding-top: 75px;}"),
+               
+               
+               tabPanel("HOME", mod_home_ui("home_ui_1")
+    ),
+    
+    tabPanel("MAP", 
+             sidebarPanel(mod_layerselection_ui("layerselection_ui_1")),
+             mainPanel(
+               
+               fluidRow(mod_evamap_ui("evamap_ui_1")),
+               hr(),
+               fluidRow(mod_evabar_ui("evabar_ui_1")),
+               hr(),
+               fluidRow(mod_evaspider_ui("evaspider_ui_1")),
+               
+                 )
+               ),
+    
+    tabPanel("NOTES", mod_notes_ui("notes_ui_1"))
+    
     )
   )
 }

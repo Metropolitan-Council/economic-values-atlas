@@ -10,9 +10,63 @@
 mod_layerselection_ui <- function(id){
   ns <- NS(id)
   tagList(
- 
-  )
+
+      HTML("<form class='well'>
+                  <div id='layerselection_ui_1-input_eva' class='form-group shiny-input-checkboxgroup shiny-input-container shiny-bound-input'>
+                    <label class='control-label' id='layerselection_ui_1-input_eva-label' for='layerselection_ui_1-input_eva'>
+                    
+                      <h5>Map Layers</h5>
+                    </label>
+                    <div class='shiny-options-group'>
+                    
+                    
+                                         <h6>Infrastructure</h6>
+
+                      <div class='checkbox'>
+                        <label>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_anydis_per'>
+                          <span>Highway accessibility</span>
+                        </label>
+                      </div>
+                    <div class='checkbox'>
+                        <label>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_anydis_per'>
+                          <span>Job density</span>
+                        </label>
+                      </div>
+                    
+                                          <h6>Resilience</h6>
+
+                      <div class='checkbox'>
+                        <label>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_ageunder15_per' checked='checked'>
+                          <span>Job sector diversity</span>
+                        </label>
+                      </div>
+                                            
+                      
+                                            <h6>Equity</h6>
+
+                      <div class='checkbox'>
+                        <label>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_hisppop_per'>
+                          <span>Commute length</span>
+                        </label>
+                      </div>
+                      <div class='checkbox'>
+                        <label>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_nothisppop_per'>
+                          <span>Concentrated poverty</span>
+                        </label>
+                      </div>
+                                          
+                      
+                    </div>
+                  </div>
+                </form>")
+    ) 
 }
+
     
 #' layerselection Server Function
 #'
@@ -20,6 +74,13 @@ mod_layerselection_ui <- function(id){
 mod_layerselection_server <- function(input, output, session){
   ns <- session$ns
  
+  input_values <- reactiveValues() # start with an empty reactiveValues object.
+  
+  observeEvent(input$input_eva, { # only update when the user changes the eva input
+    input_values$input_eva <- input$input_eva # create/update the eva input value in our reactiveValues object
+  })
+  
+  return(input_values)
 }
     
 ## To be copied in the UI
