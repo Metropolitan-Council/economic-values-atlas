@@ -21,9 +21,9 @@ app_server <- function( input, output, session ) {
              util_layers = util_layers)
   
   # observe({
-  #   print(test$map_layer_selection)
+  #   print(evamap_ui_1-vals1)
   # })
-  
+
   callModule(mod_evabar_server, "evabar_ui_1")
 
   callModule(mod_evaspider_server, "evaspider_ui_1")

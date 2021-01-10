@@ -11,10 +11,7 @@ mod_evamap_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    leafletOutput(ns("map"), height = 700),
-    
-    wellPanel(textOutput("selected_tract")),
-    
+    leafletOutput(ns("map"), height = 700)
     
   )
 }
@@ -162,11 +159,42 @@ mod_evamap_server <- function(input, output, session,
 
   #leaflet print geoid -----------
   
+  #ideally want to do nested reactive values?!?
+  #https://rtask.thinkr.fr/communication-between-modules-and-its-whims/
+  #but this is not working out well for me right now....
+  # r <- reactiveValues(test = reactiveValues())
+  # observe({
+  #   event <- input$map_shape_click
+  #   r$test$selected_tract <- (tractoutline$GEOID[tractoutline$GEOID == event$id])
+  # })
+  # # return(selected_tract)
+  
+  #this works, but want to save it
+  # vals1 <- reactiveValues()
   observe({
     event <- input$map_shape_click
-    # output$selected_tract <- 
-      print(tractoutline$GEOID[tractoutline$GEOID == event$id])
+    selected_tract <- (tractoutline$GEOID[tractoutline$GEOID == event$id])
+    print(selected_tract)
   })
+  # return(vals1)
+  
+
+  # make_barg_data <- reactive({
+  #   p <- eva_app::acs_tract %>%
+  #     filter(GEOID == selected_tract) #%>%
+  #     # select(selected_map_vars$input_eva)
+  # })
+  # 
+  # vals2 <- reactiveValues()
+  # observe({ 
+  #   vasl2$barg_data <- make_barg_data()
+  # })
+  # print(vals2)
+  
+  # observe({
+  #   vals <- make_map_data()
+  #   print(vals)
+  # })
     
 }
     
