@@ -20,42 +20,19 @@ mod_layerselection_ui <- function(id){
                     <div class='shiny-options-group'>
                     
                     
-                                         <h6>Infrastructure</h6>
 
-                      <div class='checkbox'>
-                        <label>
-                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_anydis_per'>
-                          <span>Highway accessibility</span>
-                        </label>
-                      </div>
-                    <div class='checkbox'>
-                        <label>
-                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_anydis_per'>
-                          <span>Job density</span>
-                        </label>
-                      </div>
-                    
-                                          <h6>Resilience</h6>
-
-                      <div class='checkbox'>
-                        <label>
-                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_ageunder15_per' checked='checked'>
-                          <span>Job sector diversity</span>
-                        </label>
-                      </div>
-                                            
                       
                                             <h6>Equity</h6>
 
                       <div class='checkbox'>
                         <label>
-                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_hisppop_per'>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='avgcommute' checked='checked'>
                           <span>Commute length</span>
                         </label>
                       </div>
                       <div class='checkbox'>
                         <label>
-                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_nothisppop_per'>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='pov185rate'>
                           <span>Concentrated poverty</span>
                         </label>
                       </div>
@@ -81,6 +58,7 @@ mod_layerselection_server <- function(input, output, session){
   })
   
   return(input_values)
+  
 }
     
 ## To be copied in the UI
@@ -89,3 +67,31 @@ mod_layerselection_server <- function(input, output, session){
 ## To be copied in the server
 # callModule(mod_layerselection_server, "layerselection_ui_1")
  
+
+
+
+# 
+# <h6>Infrastructure</h6>
+#   
+#   <div class='checkbox'>
+#   <label>
+#   <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_anydis_per'>
+#   <span>Highway accessibility</span>
+#   </label>
+#   </div>
+#   <div class='checkbox'>
+#   <label>
+#   <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_anydis_per'>
+#   <span>Job density</span>
+#   </label>
+#   </div>
+#   
+#   <h6>Resilience</h6>
+#   
+#   <div class='checkbox'>
+#   <label>
+#   <input type='checkbox' name='layerselection_ui_1-input_eva' value='adj_ageunder15_per'>
+#   <span>Job sector diversity</span>
+#   </label>
+#   </div>
+  

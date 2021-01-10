@@ -32,7 +32,8 @@ app_ui <- function(request) {
                                    fluidRow(
                                      column(6,mod_evabar_ui("evabar_ui_1")),
                                      column(6, mod_evaspider_ui("evaspider_ui_1")))
-    )),
+    )
+    ),
     
     navbarMenu("Notes",
                tabPanel("Data Sources", mod_notes_ui("notes_ui_1")),
