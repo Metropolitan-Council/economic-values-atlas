@@ -11,7 +11,9 @@ mod_evamap_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    leafletOutput(ns("map"), height = 700)
+    leafletOutput(ns("map"), height = 700),
+    
+    wellPanel(textOutput(ns("selected_tract")))
     
   )
 }
@@ -173,8 +175,8 @@ mod_evamap_server <- function(input, output, session,
   # vals1 <- reactiveValues()
   observe({
     event <- input$map_shape_click
-    selected_tract <- (tractoutline$GEOID[tractoutline$GEOID == event$id])
-    print(selected_tract)
+    output$selected_tract <- renderText(tractoutline$GEOID[tractoutline$GEOID == event$id])
+    # print(selected_tract)
   })
   # return(vals1)
   

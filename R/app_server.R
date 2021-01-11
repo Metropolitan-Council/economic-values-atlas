@@ -21,7 +21,7 @@ app_server <- function( input, output, session ) {
              util_layers = util_layers)
   
   # observe({
-  #   print(evamap_ui_1-vals1)
+  #   print(mod_evamap_server$output$selected_tract)
   # })
 
   callModule(mod_evabar_server, "evabar_ui_1")
