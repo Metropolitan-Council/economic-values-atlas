@@ -7,6 +7,7 @@ Authors@R:
       person(given = "Ellen",
              family = "Esch",
              role = c("cre", "aut"),
+             email = "ellen.esch@metc.state.mn.us",
              comment = c(ORCID = "https://orcid.org/0000-0002-4253-0910")))
 Description: EVA tool for the Twin Cities region.
 License: MIT + file LICENSE

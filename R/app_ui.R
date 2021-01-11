@@ -30,17 +30,18 @@ app_ui <- function(request) {
                                    fluidRow(mod_evamap_ui("evamap_ui_1")),
                                    hr(),
                                    fluidRow(
-                                     column(6,mod_evabar_ui("evabar_ui_1")),
-                                     column(6, mod_evaspider_ui("evaspider_ui_1")))
+                                     column(12,mod_evabar_ui("evabar_ui_1"))#,
+                                     # column(6, mod_evaspider_ui("evaspider_ui_1"))
+                                     )
     )
     ),
     
     navbarMenu("Notes",
-               tabPanel("Data Sources", mod_notes_ui("notes_ui_1")),
+               tabPanel("Data Sources", HTML("<br><br><br>"), mod_notes_ui("notes_ui_1")),
                "----",
                "Future steps",
-               tabPanel("Example"),
-               tabPanel("Example2")
+               tabPanel("Example", HTML("<br><br><br>A place holder to show how we might want to add information.")),
+               tabPanel("Example2", HTML("<br><br><br>And more info could be added in a fashion similar to this."))
     )
     
     ))

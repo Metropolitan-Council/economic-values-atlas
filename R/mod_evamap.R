@@ -87,10 +87,7 @@ mod_evamap_server <- function(input, output, session,
       
       addLayersControl(
         position = "bottomright",
-        overlayGroups = c(
-          "Transit",
-          "Commute"
-        ),
+        # overlayGroups = c(),
         baseGroups = c(
           "Carto Positron",
           "Stamen Toner",
@@ -154,6 +151,28 @@ mod_evamap_server <- function(input, output, session,
                          palette = "Blues",
                          domain = eva_app::acs_tract %>% select("avgcommute") %>% .[[1]]
                        )(eva_app::acs_tract %>% select("avgcommute") %>% .[[1]])
+                     )
+                 }
+               })
+  
+  observeEvent(selected_map_vars$input_eva,
+               {
+                 if ("jobs" %in% selected_map_vars$input_eva)
+                 {
+                   leafletProxy("map") %>%
+                     addPolygons(
+                       data = eva_app::job_tract %>% select("jobs"),
+                       stroke = TRUE,
+                       color = councilR::colors$suppGray,
+                       opacity = 0.6,
+                       weight = 0.25,
+                       fillOpacity = 0.3,
+                       smoothFactor = 0.2,
+                       fillColor = ~ colorNumeric(
+                         n = 9,
+                         palette = "Blues",
+                         domain = eva_app::job_tract %>% select("jobs") %>% .[[1]]
+                       )(eva_app::job_tract %>% select("jobs") %>% .[[1]])
                      )
                  }
                })

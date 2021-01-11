@@ -159,7 +159,7 @@ hr {
 
 /* Parallax Section */
 .banner {
-	background-color: #000000;
+	color: var(--council-blue); /*/#000000;/*/
 	background-image: url('https://farm9.staticflickr.com/8316/7949510262_a4c1932dbc_z.jpg');
 	/*/background-image: url('https://static.pexels.com/photos/467659/pexels-photo-467659.jpeg');/*/
 	height: 600px;
@@ -169,7 +169,7 @@ hr {
 	background-repeat: no-repeat;
 }
 .parallax {
-	color: #000000;
+	color: var(--council-blue); /*/#000000;/*/
 	text-align: center;
 	/*/padding-right: 100px;/*/
 	padding-right: -100px;
@@ -180,7 +180,7 @@ hr {
 }
 
 .parallax_description {
-	color: #000000;
+	color: var(--council-blue); /*/#000000;/*/
 	text-align: right;
 	padding-right: 30px;
 	padding-top: 15px;
@@ -202,7 +202,7 @@ hr {
 @media (max-width: 768px) {
     
  .parallax_description {
-	color: #000000;
+	color: var(--council-blue); /*/#000000;/*/
 	text-align: right;
 	padding-right: 30px;
 	padding-top: 15px;

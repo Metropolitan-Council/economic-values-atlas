@@ -36,7 +36,15 @@ mod_layerselection_ui <- function(id){
                           <span>Concentrated poverty</span>
                         </label>
                       </div>
-                                          
+                                   
+                                          <h6>Infrastructure</h6>
+
+                      <div class='checkbox'>
+                        <label>
+                          <input type='checkbox' name='layerselection_ui_1-input_eva' value='jobs'>
+                          <span>Existing jobs</span>
+                        </label>
+                      </div>       
                       
                     </div>
                   </div>
