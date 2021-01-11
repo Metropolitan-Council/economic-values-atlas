@@ -12,7 +12,7 @@ mod_notes_ui <- function(id){
   tagList(
     shiny::div(
       id = "notes",
-      includeMarkdown(system.file("app/www/notes.md", package = "eva_app"))
+      includeMarkdown(system.file("app/www/notes.md", package = "eva.app"))
     )
   )
 }

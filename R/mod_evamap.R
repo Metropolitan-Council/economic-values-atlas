@@ -57,7 +57,7 @@ mod_evamap_server <- function(input, output, session,
       
       addMapPane("trans", zIndex = 430) %>%
       addCircles(
-        data = eva_app::trans_stops,
+        data = eva.app::trans_stops,
         group = "Transit",
         radius = 20,
         fill = T,
@@ -117,7 +117,7 @@ mod_evamap_server <- function(input, output, session,
                  {
                    leafletProxy("map") %>%
                      addPolygons(
-                       data = eva_app::acs_tract %>% select("pov185rate"),
+                       data = eva.app::acs_tract %>% select("pov185rate"),
                        stroke = TRUE,
                        color = councilR::colors$suppGray,
                        opacity = 0.6,
@@ -127,8 +127,8 @@ mod_evamap_server <- function(input, output, session,
                        fillColor = ~ colorNumeric(
                          n = 9,
                          palette = "Blues",
-                         domain = eva_app::acs_tract %>% select("pov185rate") %>% .[[1]]
-                       )(eva_app::acs_tract %>% select("pov185rate") %>% .[[1]])
+                         domain = eva.app::acs_tract %>% select("pov185rate") %>% .[[1]]
+                       )(eva.app::acs_tract %>% select("pov185rate") %>% .[[1]])
                      )
                  }
                })
@@ -139,7 +139,7 @@ mod_evamap_server <- function(input, output, session,
                  {
                    leafletProxy("map") %>%
                      addPolygons(
-                       data = eva_app::acs_tract %>% select("avgcommute"),
+                       data = eva.app::acs_tract %>% select("avgcommute"),
                        stroke = TRUE,
                        color = councilR::colors$suppGray,
                        opacity = 0.6,
@@ -149,8 +149,8 @@ mod_evamap_server <- function(input, output, session,
                        fillColor = ~ colorNumeric(
                          n = 9,
                          palette = "Blues",
-                         domain = eva_app::acs_tract %>% select("avgcommute") %>% .[[1]]
-                       )(eva_app::acs_tract %>% select("avgcommute") %>% .[[1]])
+                         domain = eva.app::acs_tract %>% select("avgcommute") %>% .[[1]]
+                       )(eva.app::acs_tract %>% select("avgcommute") %>% .[[1]])
                      )
                  }
                })
@@ -161,7 +161,7 @@ mod_evamap_server <- function(input, output, session,
                  {
                    leafletProxy("map") %>%
                      addPolygons(
-                       data = eva_app::job_tract %>% select("jobs"),
+                       data = eva.app::job_tract %>% select("jobs"),
                        stroke = TRUE,
                        color = councilR::colors$suppGray,
                        opacity = 0.6,
@@ -171,8 +171,8 @@ mod_evamap_server <- function(input, output, session,
                        fillColor = ~ colorNumeric(
                          n = 9,
                          palette = "Blues",
-                         domain = eva_app::job_tract %>% select("jobs") %>% .[[1]]
-                       )(eva_app::job_tract %>% select("jobs") %>% .[[1]])
+                         domain = eva.app::job_tract %>% select("jobs") %>% .[[1]]
+                       )(eva.app::job_tract %>% select("jobs") %>% .[[1]])
                      )
                  }
                })
@@ -201,7 +201,7 @@ mod_evamap_server <- function(input, output, session,
   
 
   # make_barg_data <- reactive({
-  #   p <- eva_app::acs_tract %>%
+  #   p <- eva.app::acs_tract %>%
   #     filter(GEOID == selected_tract) #%>%
   #     # select(selected_map_vars$input_eva)
   # })
@@ -211,12 +211,7 @@ mod_evamap_server <- function(input, output, session,
   #   vasl2$barg_data <- make_barg_data()
   # })
   # print(vals2)
-  
-  # observe({
-  #   vals <- make_map_data()
-  #   print(vals)
-  # })
-    
+ 
 }
     
 ## To be copied in the UI

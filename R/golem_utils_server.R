@@ -72,6 +72,7 @@ rvtl <- shiny::reactiveValuesToList
 #' @import cowplot
 #' @import councilR
 #' @import fmsb
+#' @import shinyjs
 e_col <- "#78A22F" # CD green
 p_col <- "#AA5FEC" #purple
 s_col <- "#DDCC77" #yellow

@@ -1,4 +1,4 @@
-Package: eva_app
+Package: eva.app
 Title: An Amazing Shiny App
 Version: 0.0.0.9000
 Authors@R: 
@@ -14,21 +14,35 @@ License: MIT + file LICENSE
 Depends: 
     R (>= 2.10)
 Imports: 
-    config,
-    golem,
-    shiny,
-    councilR,
-    leaflet,
-    leaflet.extras,
-    magrittr,
-    sf,
+    config (>= 0.3),
+    councilR (>= 0.1.0),
+    dplyr (>= 1.0.0),
+    golem (>= 0.2.1),
+    leaflet (>= 2.0.3),
+    leaflet.extras (>= 1.0.0),
+    magrittr (>= 1.5),
+    sf (>= 0.9.3),
+    shiny (>= 1.4.0.2),
     htmltools,
-    tibble,
+    cowplot (>= 1.1.0),
+    tibble (>= 3.0.4),
     forcats,
     stringr,
-    ggplot2
+    ggplot2,
+    fmsb,
+    tidyr,
+    processx, 
+    shinyjs
+Suggests: 
+    data.table (>= 1.12.8),
+    fs (>= 1.4.1),
+    janitor (>= 2.0.1),
+    readxl (>= 1.3.1),
+    testthat (>= 2.3.2),
+    tigris (>= 0.9.4)    
 Remotes:
     Metropolitan-Council/councilR
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+

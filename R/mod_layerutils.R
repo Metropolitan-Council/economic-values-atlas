@@ -22,7 +22,7 @@ mod_layerutils_server <- function(input, output, session,
   ns <- session$ns
  
   make_map_data <- reactive({
-    p <- eva_app::acs_tract %>% select("avgcommute", pov185rate)
+    p <- eva.app::acs_tract %>% select("avgcommute", pov185rate)
       # dplyr::select(
         # var %in% c("avgcommute", "pov185rate"))#selected_map_vars$input_eva) 
     return(p)
