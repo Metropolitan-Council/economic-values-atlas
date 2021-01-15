@@ -1,0 +1,84 @@
+---
+title: "EVA Methods"
+author: "Ellen"
+date: "1/15/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(fs)
+library(sf)
+library(tigris)
+library(janitor)
+```
+
+This script gives the workflow for creating the layers which will go into the EVA tool. 
+
+## Gather data reported in tracts
+
+
+```{r cars}
+source("data_acs.R") # --> `acs_merge`
+```
+
+
+## Gather data NOT reported in tracts (need to keep separate, due to data joins, etc. )
+```{nottracts}
+source("job_tract.R") # --> `job_tract`
+```
+
+## Standardize variables (z-score)
+
+```{r zscores}
+
+
+
+
+ct_summary <- ct_merge %>%
+  group_by(var) %>%
+  summarise(MEAN = mean(value, na.rm = T), 
+            SD = sd(value, na.rm = T)) %>%
+  full_join(ct_merge) %>%
+  mutate(zscore = (value - MEAN) / SD) %>%
+  select(geoid2, var, zscore) %>%
+  pivot_wider(names_from = "var", values_from = "zscore")
+
+
+```
+
+
+
+And then add geometries to everything
+
+```{r addgeo, echo=FALSE}
+MNtract <- tigris::tracts(
+  state = "MN",
+  county = c(
+    "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington",
+    "Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright"
+  ),
+  class = "sf"
+) %>%
+  select(GEOID)
+
+WItract <- tigris::tracts(
+  state = "WI",
+  county = c("St. Croix", "Polk", "Pierce"),
+  class = "sf"
+) %>%
+  select(GEOID) 
+
+acs_tract <- bind_rows(MNtract, WItract) %>%
+  left_join((ct_summary), 
+            by = c("GEOID" = "geoid2")) %>% 
+  st_transform(4326) # for leaflet
+
+usethis::use_data(acs_tract, overwrite = TRUE)
+
+#--------
+#need to get just tract outlines too
+tractoutline <- acs_tract %>% select(GEOID) %>% 
+  st_transform(4326)
+usethis::use_data(tractoutline, overwrite = TRUE)
+```
