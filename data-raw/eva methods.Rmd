@@ -31,9 +31,36 @@ source("job_tract.R") # --> `job_tract`
 ## Standardize variables (z-score)
 
 ```{r zscores}
+# a couple ways to calculate zscores
 
+# here each variable has to be written
+acs_equity %>% 
+  select(geoid2, poc_per, avgcommute) %>% 
+  mutate(geoid2, 
+         z_poc = (poc_per - mean(poc_per, na.rm= T))/sd(poc_per, na.rm = T),
+         z_commute = (avgcommute - mean(avgcommute, na.rm= T))/sd(avgcommute, na.rm = T))
 
+#here nothing has to be specified, but it goes wide to long back to wide
+acs_equity %>% 
+  select(geoid2, poc_per, avgcommute) %>%
+  gather("variable", "value", -geoid2) %>%
+  group_by(variable) %>%
+  mutate(MEAN = mean(value, na.rm = T),
+         SD = sd(value, na.rm = T),
+         z_score = (value - MEAN)/SD) %>%
+  # filter(geoid2 == "27123040401")
+  select(geoid2, variable, z_score) %>%
+  pivot_wider(names_from = variable, values_from = z_score)
 
+#nothing to be specified, and more elegant, but a bit more of a black box  
+acs_equity %>% 
+  select(geoid2, poc_per, avgcommute) %>% 
+  transmute(geoid2,
+            across(c(2:ncol(.)), 
+                list(zscore = ~scale(.x, center = T, scale = T)),
+                   # list(mean = ~mean(.x, na.rm = T), sd = ~sd(.x, na.rm = T)),
+                   .names = "{.col}.{.fn}")) 
+  
 
 ct_summary <- ct_merge %>%
   group_by(var) %>%
