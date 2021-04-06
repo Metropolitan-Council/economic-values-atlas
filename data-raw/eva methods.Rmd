@@ -61,6 +61,10 @@ acs_equity %>%
                    # list(mean = ~mean(.x, na.rm = T), sd = ~sd(.x, na.rm = T)),
                    .names = "{.col}.{.fn}")) 
   
+# unclear how to get weights nominal
+
+
+
 
 ct_summary <- ct_merge %>%
   group_by(var) %>%

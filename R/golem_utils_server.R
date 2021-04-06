@@ -75,7 +75,17 @@ rvtl <- shiny::reactiveValuesToList
 #' @import shinyjs
 #' @import shinyWidgets
 #' 
-e_col <- "#78A22F" # CD green
-p_col <- "#AA5FEC" #purple
-s_col <- "#DDCC77" #yellow
 
+people_vars <- c("Working age population (total persons)",
+                 "Share of population with limited English proficiency",
+                 "Share of population that is BIPOC",
+                 "Share of population below 185% of poverty line",
+                 "Median annual earnings for full-time workers (in 2019 dollars)")
+
+business_vars <- c("Total jobs",
+                   "Proportion of jobs that are low income (<15,000 / year)")
+
+place_vars <- c("Proportion of residents nearby (<0.5 mile) high frequency transit",
+                "Median land value per acre (in 2020)",
+                "Proportion of acres used for commercial or industrial uses",
+                "Proportion of acres that are undeveloped")
