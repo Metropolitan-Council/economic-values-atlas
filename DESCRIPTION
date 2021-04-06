@@ -32,7 +32,8 @@ Imports:
     fmsb,
     tidyr,
     processx, 
-    shinyjs
+    shinyjs,
+    shinyWidgets
 Suggests: 
     data.table (>= 1.12.8),
     fs (>= 1.4.1),
