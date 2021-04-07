@@ -76,16 +76,16 @@ rvtl <- shiny::reactiveValuesToList
 #' @import shinyWidgets
 #' 
 
-people_vars <- c("Working age population (total persons)",
-                 "Share of population with limited English proficiency",
-                 "Share of population that is BIPOC",
-                 "Share of population below 185% of poverty line",
-                 "Median annual earnings for full-time workers (in 2019 dollars)")
+# unique(eva_data_main$variable)
+# eva_data_main %>%
+#   select(-z_score, -raw_value, -tr10) %>%
+#   mutate_all(as.factor) %>%
+#   sapply(levels)
 
-business_vars <- c("Total jobs",
-                   "Proportion of jobs that are low income (<15,000 / year)")
+eva_vars <- eva_data_main %>%
+  group_by(type, name, variable, interpret_high_value) %>%
+  count() %>%
+  ungroup()
 
-place_vars <- c("Proportion of residents nearby (<0.5 mile) high frequency transit",
-                "Median land value per acre (in 2020)",
-                "Proportion of acres used for commercial or industrial uses",
-                "Proportion of acres that are undeveloped")
+
+

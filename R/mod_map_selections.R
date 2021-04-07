@@ -24,31 +24,31 @@ mod_map_selections_ui <- function(id){
     # ),
     # br(),
     shinyWidgets::pickerInput("equityInput","Equity & People", 
-                              choices = people_vars, 
+                              choices = filter(eva_vars, type == "people")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"), 
                               multiple = T,
-                              selected = people_vars),
+                              selected = filter(eva_vars, type == "people")$name),
     hr(),
     
     shinyWidgets::pickerInput("infInput","Infrastructure & Place", 
-                              choices=place_vars, 
+                              choices=filter(eva_vars, type == "place")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"), 
                               multiple = T,
-                              selected = place_vars),
+                              selected = filter(eva_vars, type == "place")$name),
     
     hr(),
 
     shinyWidgets::pickerInput("resInput","Resilience & Business", 
-                              choices=business_vars, 
+                              choices=filter(eva_vars, type == "business")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"),
                               multiple = T,
-                              selected = business_vars)
+                              selected = filter(eva_vars, type == "business")$name)
 
   )
 }

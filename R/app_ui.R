@@ -30,7 +30,10 @@ app_ui <- function(request) {
 
                                    fluidRow(mod_evamap_ui("evamap_ui_1"))),
                         hr(),
-                        sidebarPanel(mod_map_selections_ui("map_selections_ui_1")),
+                        sidebarPanel(width = 3, 
+                                     mod_map_selections_ui("map_selections_ui_1")),
+                        # mainPanel(width = 9,
+                        #           fluidRow(mod_evamap_ui("evamap_ui_1"))),
                         hr(),
                           
                         fluidRow(column(12,mod_evabar_ui("evabar_ui_1")))
