@@ -11,19 +11,8 @@ mod_map_selections_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    # pickerInput(
-    #   inputId = "myPicker", 
-    #   label = "Select/deselect all + format selected", 
-    #   choices = LETTERS, 
-    #   options = list(
-    #     `actions-box` = TRUE, 
-    #     size = 10,
-    #     `selected-text-format` = "count > 3"
-    #   ), 
-    #   multiple = TRUE
-    # ),
-    # br(),
-    shinyWidgets::pickerInput("equityInput","Equity & People", 
+    shinyWidgets::pickerInput(ns("peopleInput"),
+                              label = shiny::HTML(paste0("<h4>Equity & People</h4>", "Some description about this group of variables.")), 
                               choices = filter(eva_vars, type == "people")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
@@ -32,7 +21,8 @@ mod_map_selections_ui <- function(id){
                               selected = filter(eva_vars, type == "people")$name),
     hr(),
     
-    shinyWidgets::pickerInput("infInput","Infrastructure & Place", 
+    shinyWidgets::pickerInput(ns("placeInput"),
+                              label = shiny::HTML("<h4>Infrastructure & Place</h4>Some description about this group of variables."), 
                               choices=filter(eva_vars, type == "place")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
@@ -42,13 +32,18 @@ mod_map_selections_ui <- function(id){
     
     hr(),
 
-    shinyWidgets::pickerInput("resInput","Resilience & Business", 
+    shinyWidgets::pickerInput(ns("businessInput"),
+                              label = shiny::HTML("<h4>Resilience & Business</h4>Some description about this group of variables."), 
                               choices=filter(eva_vars, type == "business")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"),
                               multiple = T,
-                              selected = filter(eva_vars, type == "business")$name)
+                              selected = filter(eva_vars, type == "business")$name),
+    
+    hr(),
+    
+    actionButton(ns("do"), "Update map")
 
   )
 }
@@ -58,6 +53,30 @@ mod_map_selections_ui <- function(id){
 #' @noRd 
 mod_map_selections_server <- function(input, output, session){
   ns <- session$ns
+  
+
+  input_values <- reactiveValues() # start with an empty reactiveValues object.
+  
+  eventReactive(input$do, {
+    input_values$buttonInput <- input$peopleInput
+  })
+  
+  observeEvent(input$peopleInput, { # only update when the user changes the eva input
+    input_values$peopleInput <- input$peopleInput # create/update the eva input value in our reactiveValues object
+  })
+  
+  observeEvent(input$placeInput, { # only update when the user changes the eva input
+    input_values$placeInput <- input$placeInput # create/update the eva input value in our reactiveValues object
+  })
+  
+  observeEvent(input$businessInput, { # only update when the user changes the eva input
+    input_values$businessInput <- input$businessInput # create/update the eva input value in our reactiveValues object
+  })
+  
+  return(input_values)
+  
+  
+  
  
 }
     
