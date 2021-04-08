@@ -25,11 +25,11 @@ app_ui <- function(request) {
                
                tabPanel("HOME", mod_home_ui("home_ui_1"),
                         
-                        sidebarPanel(width = 3, mod_layerselection_ui("layerselection_ui_1")),
-                                 mainPanel(width = 9,
-
-                                   fluidRow(mod_evamap_ui("evamap_ui_1"))),
-                        hr(),
+                        # sidebarPanel(width = 3, mod_layerselection_ui("layerselection_ui_1")),
+                        #          mainPanel(width = 9,
+                        # 
+                        #            fluidRow(mod_evamap_ui("evamap_ui_1"))),
+                        # hr(),
                         
                         #### i like this stuff below
                         sidebarPanel(width = 3, 

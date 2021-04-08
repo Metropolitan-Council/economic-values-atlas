@@ -86,6 +86,3 @@ eva_vars <- eva_data_main %>%
   group_by(type, name, variable, interpret_high_value) %>%
   count() %>%
   ungroup()
-
-
-

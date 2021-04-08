@@ -30,11 +30,11 @@ app_server <- function( input, output, session ) {
   
   
   
-  observe({print(map_selections$do)})
+  observe({print(map_selections$goButton)})
   
-  observe({print(map_selections$input_values)})
+  # observe({print(map_selections$input_values)})
   
-  observe({print(map_selections$peopleInput)})
+  # observe({print(map_selections$peopleInput)})
   # observe({print(map_selections$placeInput)})
   # observe({print(map_selections$businessInput)})
   
