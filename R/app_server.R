@@ -12,9 +12,9 @@ app_server <- function( input, output, session ) {
   util_layers <- callModule(mod_layerutils_server, "layerutils_ui_1",
                             selected_map_vars = selected_map_vars)
   
-  observe({
-    print(selected_map_vars$input_eva)
-  })
+  # observe({
+  #   print(selected_map_vars$input_eva)
+  # })
   
   callModule(mod_evamap_server, "evamap_ui_1",
              selected_map_vars = selected_map_vars,
@@ -30,13 +30,15 @@ app_server <- function( input, output, session ) {
   
   
   
-  observe({print(map_selections$goButton)})
+  # observe({print(map_selections$peopleInput)})
   
   # observe({print(map_selections$input_values)})
+  # observe({print(map_selections$buttonInput)})
   
   # observe({print(map_selections$peopleInput)})
   # observe({print(map_selections$placeInput)})
   # observe({print(map_selections$businessInput)})
+  observe({print(map_selections$test)})
   
   callModule(mod_map_overview_server, "map_overview_ui_1",
              map_selections = map_selections,

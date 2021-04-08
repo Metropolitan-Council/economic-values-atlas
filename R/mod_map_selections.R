@@ -43,7 +43,7 @@ mod_map_selections_ui <- function(id){
     actionButton(ns("goButton"), "Update map", class = "btn-success"),
     
     # shiny::h4("Selected variables"),
-    textOutput(ns("selectedvars0")),
+    textOutput(ns("selectedvars0")), #if want to print variables on shiny this works
     # textOutput(ns("selectedvars25"))
     
 
@@ -56,20 +56,31 @@ mod_map_selections_ui <- function(id){
 mod_map_selections_server <- function(input, output, session){
   ns <- session$ns
   
-  output$selectedvars0 <- renderPrint({
+  output$selectedvars0 <- renderText({
     input$goButton
-    toprint <- isolate(input$peopleInput %>% 
-      rbind(input$placeInput) %>%
-        rbind(input$businessInput))
+    a <- isolate(input$peopleInput)
+    b <- isolate(input$placeInput)
+    c <- isolate(input$businessInput)
+    toprint <- paste(a, b, c, sep = "; ")
     toprint
     })
+  
   # output$selectedvars25 <- renderText(input$peopleInput %>% rbind(input$placeInput))
   
   input_values <- reactiveValues() # start with an empty reactiveValues object.
   
   # eventReactive(input$goButton, {
-  #   input_values$buttonInput <- input$peopleInput
-  # })
+  observeEvent(input$goButton,{
+      input$goButton
+    input_values$peopleInput <- input$peopleInput
+    input_values$placeInput <- input$placeInput
+    input_values$businessInput <- input$businessInput
+    input_values$test <- as_tibble(input$peopleInput) %>%
+      rbind(as_tibble(input$placeInput)) %>%
+      rbind(as_tibble(input$businessInput)) 
+  })
+  
+  
   # 
   # observeEvent(input$peopleInput, { # only update when the user changes the eva input
   #   input_values$peopleInput <- input$peopleInput # create/update the eva input value in our reactiveValues object
