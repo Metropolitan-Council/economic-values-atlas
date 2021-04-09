@@ -36,9 +36,6 @@ app_server <- function( input, output, session ) {
              map_selections = map_selections,
              map_util = map_util)
   
-  observe({print(test$output$selected_tract)}) #to check that tract clicking is working
-  observe({print(test$vals$selected_tract)}) #to check that tract clicking is working
-  observe({print(test$vals)}) #to check that tract clicking is working
   observe({print(test$selected_tract)}) #to check that tract clicking is working
   
   ########

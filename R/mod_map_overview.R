@@ -121,7 +121,6 @@ mod_map_overview_server <- function(input, output, session,
   
   observeEvent(toListen_mainleaflet(),
                {
-                 print("step 1")
                  if (is.null(map_util$map_data2)) {
                    print('nodata')
                  } else {
@@ -161,14 +160,12 @@ mod_map_overview_server <- function(input, output, session,
   # # return(selected_tract)
   
   #this works, but want to save it
-  # vals <- reactiveValues()
   observe({
     event <- input$map_shape_click
     output$selected_tract <- renderText(tractoutline$GEOID[tractoutline$GEOID == event$id])
-    # print(selected_tract)
   })
-  # return(vals1)
-  
+
+  #save the selected tract
   vals <- reactiveValues()
   observe({
     event <- input$map_shape_click
@@ -176,18 +173,6 @@ mod_map_overview_server <- function(input, output, session,
   })
   
   return(vals)
-  
-  # make_barg_data <- reactive({
-  #   p <- eva.app::acs_tract %>%
-  #     filter(GEOID == selected_tract) #%>%
-  #     # select(selected_map_vars$input_eva)
-  # })
-  # 
-  # vals2 <- reactiveValues()
-  # observe({ 
-  #   vasl2$barg_data <- make_barg_data()
-  # })
-  # print(vals2)
  
 }
     
