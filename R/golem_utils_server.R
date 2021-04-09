@@ -88,3 +88,42 @@ eva_vars <- eva.app::eva_data_main %>%
   dplyr::ungroup()
 
 
+labelFormat2 <- function(
+  prefix = "(", suffix = ")", between = " &ndash; ", digits = 5, big.mark = ",",
+  transform = identity
+) {
+  
+  formatNum <- function(x) {
+    format(
+      round(transform(x), digits), trim = FALSE, scientific = FALSE,
+      big.mark = big.mark
+    )
+  }
+  
+  function(type, ...) {
+    switch(
+      type,
+      numeric = (function(cuts) {
+        paste0(prefix, formatNum(cuts), suffix)
+      })(...), # nolint
+      bin = (function(cuts) {
+        n <- length(cuts)
+        paste0(prefix, formatNum(cuts[-n]), between, formatNum(cuts[-1]), suffix)
+      })(...), # nolint
+      quantile = (function(cuts, p) {
+        n <- length(cuts)
+        p <- paste0(round(p * 100), "%")
+        cuts <- paste0(formatNum(cuts[-n]), between, formatNum(cuts[-1]))
+        # mouse over the legend labels to see the values (quantiles)
+        paste0(
+          "<span title=\"", cuts, "\">", prefix, p[-n], between, p[-1], suffix,
+          "</span>"
+        )
+      })(...), # nolint
+      factor = (function(cuts) {
+        paste0(prefix, as.character(transform(cuts)), suffix)
+      })(...) # nolint
+    )
+  }
+  
+}

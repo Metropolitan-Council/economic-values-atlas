@@ -148,7 +148,7 @@ mod_map_overview_server <- function(input, output, session,
                      ) %>%
                      
                      addLegend(
-                       # labFormat = labelFormat(prefix = "  ", digits = 3),
+                       labFormat = labelFormat2(),#labelFormat(prefix = "(", suffix = ")", digits = 5),
                        title = "Average z-scores",
                        position = "bottomleft",
                        group = "zscores",

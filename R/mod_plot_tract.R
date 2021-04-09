@@ -102,7 +102,13 @@ mod_plot_tract_server <- function(input, output, session,
   #   gather(key = "key", value = "value", -name, -dsource)
   
   output$bargraph <- renderPlot({
-    print("making graph")
+    if(identical(tract_selections$selected_tract, character(0))) {
+      print("nodata")
+      ggplot() +
+        theme_void() +
+        annotate("text", x =0, y=0, label = "Click on a tract to view the values ")
+      } else {
+      print("making graph")
     ggplot() + 
       # geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals()) +
       geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals(),
@@ -111,10 +117,11 @@ mod_plot_tract_server <- function(input, output, session,
       scale_color_manual(values = c("#0054A4", "#78A22F"), name = "Legend:") +
       labs(y = "", x = "Scaled and standardized value (z-score)\n(high z-score = large opportunity") +
     council_theme() +
-    xlim(-20, 10)+#min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
+      xlim(min(map_util$map_data2$MEAN, na.rm = T), max(map_util$map_data2$MEAN, na.rm = T)) +
+      # xlim(min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
     theme(legend.position = "top")
+    } 
   })
- 
 }
 
 
