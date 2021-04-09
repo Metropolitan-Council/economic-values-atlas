@@ -111,27 +111,40 @@ mod_map_overview_server <- function(input, output, session,
   
   # this stackoverflow was helpful: https://stackoverflow.com/questions/47465896/having-trouble-with-leafletproxy-observeevent-and-shiny-leaflet-application
   
-  # observeEvent(selected_map_vars$input_eva,
-  #              {
-  #                if ("pov185rate" %in% selected_map_vars$input_eva)
-  #                {
-  #                  leafletProxy("map") %>%
-  #                    addPolygons(
-  #                      data = eva.app::acs_tract %>% select("pov185rate"),
-  #                      stroke = TRUE,
-  #                      color = councilR::colors$suppGray,
-  #                      opacity = 0.6,
-  #                      weight = 0.25,
-  #                      fillOpacity = 0.3,
-  #                      smoothFactor = 0.2,
-  #                      fillColor = ~ colorNumeric(
-  #                        n = 9,
-  #                        palette = "Blues",
-  #                        domain = eva.app::acs_tract %>% select("pov185rate") %>% .[[1]]
-  #                      )(eva.app::acs_tract %>% select("pov185rate") %>% .[[1]])
-  #                    )
-  #                }
-  #              })
+  toListen_mainleaflet <- reactive({
+    list(
+      # current_tab,
+      map_util$make_map_data2,
+      map_selections$goButton
+    )
+  })
+  
+  
+  observeEvent(
+    toListen_mainleaflet(),
+    {
+    print("step 1")
+      if(is.null(map_util$make_map_data2)){
+        # if(is.null(map_selections$allInputs)){
+        print('nodata')} else {
+                 print("rendering polygons")
+                   leafletProxy("map") %>%
+                     addPolygons(
+                       data = map_util$make_map_data2,
+                       stroke = TRUE,
+                       color = councilR::colors$suppGray,
+                       opacity = 0.6,
+                       weight = 0.25,
+                       fillOpacity = 0.3,
+                       smoothFactor = 0.2,
+                       fillColor = ~ colorNumeric(
+                         n = 9,
+                         palette = "Blues",
+                         domain = map_util$make_map_data2 %>% select("MEAN") %>% .[[1]]
+                       )(map_util$make_map_data2 %>% select("MEAN") %>% .[[1]])
+                     ) } 
+               }
+    )
   
 
   
