@@ -8,8 +8,11 @@ requireNamespace("fs", quietly = TRUE)
 requireNamespace("tigris", quietly = TRUE)
 requireNamespace("janitor", quietly = TRUE)
 
+###################
+# download data sources of interest and select relevant variables
+###################
 
-## -------------------------------------------------
+## ----------- equity considerations data
 
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_equity_considerations/xlsx_society_equity_considerations.zip",
@@ -22,7 +25,7 @@ equity <- readxl::read_xlsx(unzip(temp, "EquityConsiderations_Full.xlsx")) %>%
 fs::file_delete("EquityConsiderations_Full.xlsx")
 
 
-## -----------------------------------------------------------------------------------------------------------------------------------------------------
+## --------------variables of interest from equity considerations
 eva_data_raw <- equity %>%
   select(tr10, 
          p_englimit,
@@ -43,7 +46,11 @@ eva_data_raw <- equity %>%
   select(-luse_comm, -luse_indus,
          -pwhitenh)
 
-## ------------------------------------------------------------------------------------------------------------------------------------------------------
+###################
+# add some human-readable metadata
+###################
+
+## -------------------------------describe data
 eva_data_codes <- tribble(~variable, ~name, ~type, ~interpret_high_value,
                           "p_englimit", "Share of population with limited English proficiency", "people", "high_opportunity",
                           "pnonwhite", "Share of population that is BIPOC", "people", "high_opportunity",
@@ -58,8 +65,25 @@ eva_data_codes <- tribble(~variable, ~name, ~type, ~interpret_high_value,
                           "luse_commind", "Proportion of acres used for commercial or industrial uses", "place", "high_opportunity",
                           "luse_undev", "Proportion of acres that are undeveloped", "place", "high_opportunity")
 
-## ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+###################
+# join spatial elements
+###################
+## ---------------get tracts via tigris
+MNtract <- tigris::tracts(
+  state = "MN",
+  county = c(
+    "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"#,
+    # "Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright" #if want to add collar counties
+  ),
+  class = "sf"
+) %>%
+  select(GEOID)
+
+
+###################
+# create final dataset
+###################
 
 # #wide data
 # eva_data_main <- eva_data_raw %>% 
@@ -82,7 +106,9 @@ eva_data_main <- eva_data_raw %>%
   mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
     (z_score)
     else if (interpret_high_value == "low_opportunity")
-      (z_score * (-1)))
+      (z_score * (-1))) %>%
+  #join the spatial element for mapping
+  left_join(MNtract, by = c("tr10" = "GEOID"))
 
 usethis::use_data(eva_data_main, overwrite = TRUE)
 
