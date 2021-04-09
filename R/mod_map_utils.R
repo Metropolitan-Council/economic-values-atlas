@@ -21,8 +21,10 @@ mod_map_utils_server <- function(input, output, session,
                                  map_selections){
   ns <- session$ns
  
-  make_map_data <- reactive({
-    p <- eva.app::acs_tract %>% select("avgcommute", pov185rate)
+  make_map_data2 <- reactive({
+    p <- eva.app::eva_data_main %>% 
+      filter(name %in% map_selections$allInputs$value) %>%
+      head()
     # dplyr::select(
     # var %in% c("avgcommute", "pov185rate"))#selected_map_vars$input_eva) 
     return(p)
@@ -33,7 +35,7 @@ mod_map_utils_server <- function(input, output, session,
   vals <- reactiveValues()
   
   observe({
-    vals$map_data <- make_map_data()
+    vals$map_data2 <- make_map_data2()
   })
   
   return(vals)
