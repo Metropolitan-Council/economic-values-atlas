@@ -82,9 +82,9 @@ rvtl <- shiny::reactiveValuesToList
 #   mutate_all(as.factor) %>%
 #   sapply(levels)
 
-eva_vars <- eva_data_main %>%
-  group_by(type, name, variable, interpret_high_value) %>%
-  count() %>%
-  ungroup()
+eva_vars <- eva.app::eva_data_main %>%
+  dplyr::group_by(type, name, variable, interpret_high_value) %>%
+  dplyr::count() %>%
+  dplyr::ungroup()
 
 

@@ -80,9 +80,13 @@ MNtract <- tigris::tracts(
 ) %>%
   select(GEOID)
 
+eva_tract_geometry <- MNtract
+
+usethis::use_data(eva_tract_geometry, overwrite = TRUE)
 
 ###################
-# create final dataset
+# create final dataset - no spatial data
+#note spatial data should be joined after any summarizing is done to save some computation time
 ###################
 
 # #wide data
@@ -106,9 +110,9 @@ eva_data_main <- eva_data_raw %>%
   mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
     (z_score)
     else if (interpret_high_value == "low_opportunity")
-      (z_score * (-1))) %>%
+      (z_score * (-1))) #%>%
   #join the spatial element for mapping
-  left_join(MNtract, by = c("tr10" = "GEOID"))
+  # left_join(MNtract, by = c("tr10" = "GEOID"))
 
 usethis::use_data(eva_data_main, overwrite = TRUE)
 

@@ -33,7 +33,9 @@ mod_map_utils_server <- function(input, output, session,
     p <- eva.app::eva_data_main %>%
       filter(name %in% map_selections$allInputs$value) %>%
       group_by(tr10) %>%
-      summarise(MEAN = mean(opportunity_zscore, na.rm = T))
+      summarise(MEAN = mean(opportunity_zscore, na.rm = T)) %>%
+      left_join(eva_tract_geometry, by = c("tr10" = "GEOID")) %>%
+      st_as_sf()
     return(p)
   })
   
