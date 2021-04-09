@@ -11,9 +11,9 @@ mod_map_overview_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    leafletOutput(ns("map"), height = 700),
+    leafletOutput(ns("map"), height = 700)#,
     
-    wellPanel(textOutput(ns("selected_tract")))
+    # wellPanel(textOutput(ns("selected_tract")))
     
   )
 }
@@ -68,23 +68,23 @@ mod_map_overview_server <- function(input, output, session,
       #   options = pathOptions(pane = "trans")
       # ) %>%
       # 
-      addMapPane("tractoutline", zIndex = 699) %>%
-      addPolygons( #just need to add the tract outline
-        data = eva_tract_geometry,
-        stroke = T, weight = .2,
-        fillColor = "black", 
-        fillOpacity = 0,
-        color = councilR::colors$suppGray,
-        popup = ~paste0("Tract ID: ", eva_tract_geometry$GEOID), #eva_tract_geometry
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
-          color = "black",
-          weight = 6,
-          bringToFront = TRUE
-        ),
-        options = pathOptions(pane = "tractoutline"),
-        layerId = ~GEOID) %>%
-      
+      # addMapPane("tractoutline", zIndex = 699) %>%
+      # addPolygons( #just need to add the tract outline
+      #   data = eva_tract_geometry,
+      #   stroke = T, weight = .2,
+      #   fillColor = "black", 
+      #   fillOpacity = 0,
+      #   color = councilR::colors$suppGray,
+      #   popup = ~paste0("Tract ID: ", eva_tract_geometry$GEOID), #eva_tract_geometry
+      #   highlightOptions = highlightOptions(
+      #     stroke = TRUE,
+      #     color = "black",
+      #     weight = 6,
+      #     bringToFront = TRUE
+      #   ),
+      #   options = pathOptions(pane = "tractoutline"),
+      #   layerId = ~GEOID) %>%
+      # 
       addLayersControl(
         position = "bottomright",
         # overlayGroups = c(),
@@ -126,21 +126,39 @@ mod_map_overview_server <- function(input, output, session,
                  } else {
                    print("rendering polygons")
                    leafletProxy("map") %>%
-                     clearGroup("zscores") %>%
+                     clearGroup("zscore") %>%
+                     addMapPane("zscore", zIndex = 400) %>%
                      addPolygons(
                        data = map_util$map_data2 %>% st_transform(4326),
                        group = "zscores",
                        stroke = TRUE,
                        color = councilR::colors$suppGray,
-                       opacity = 0.6,
+                       opacity = 0.9,
                        weight = 0.25,
-                       fillOpacity = 0.3,
+                       fillOpacity = 0.7,
                        smoothFactor = 0.2,
                        fillColor = ~ colorNumeric(
-                         n = 4,
-                         palette = "Blues",
+                         n = 5,
+                         palette = "BrBG",
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
-                       )(map_util$map_data2 %>% select("MEAN") %>% .[[1]])
+                       )(map_util$map_data2 %>% select("MEAN") %>% .[[1]]),
+                       popup = ~paste0("Tract ID: ", map_util$map_data2$tr10, "<br> Average z-score: ", round(map_util$map_data2$MEAN, 3)),
+                       options = pathOptions(pane = "zscore"),
+                       layerId = ~tr10
+                     ) %>%
+                     
+                     addLegend(
+                       # labFormat = labelFormat(prefix = "  ", digits = 3),
+                       title = "Average z-scores",
+                       position = "bottomleft",
+                       group = "zscores",
+                       layerId = "zscores",
+                       pal = colorNumeric(
+                         n = 5,
+                         palette = "BrBG",
+                         domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
+                       ),
+                       values = (map_util$map_data2 %>% select("MEAN") %>% .[[1]])
                      )
                    
                  }
@@ -159,17 +177,17 @@ mod_map_overview_server <- function(input, output, session,
   # })
   # # return(selected_tract)
   
-  #this works, but want to save it
-  observe({
-    event <- input$map_shape_click
-    output$selected_tract <- renderText(tractoutline$GEOID[tractoutline$GEOID == event$id])
-  })
+  # #this works, but want to save it
+  # observe({
+  #   event <- input$map_shape_click
+  #   output$selected_tract <- renderText(map_util$map_data2$tr10[map_util$map_data2$tr10] == event$id)#renderText(tractoutline$GEOID[tractoutline$GEOID == event$id])
+  # })
 
   #save the selected tract
   vals <- reactiveValues()
   observe({
     event <- input$map_shape_click
-    vals$selected_tract <- (tractoutline$GEOID[tractoutline$GEOID == event$id])
+    vals$selected_tract <- (map_util$map_data2$tr10[map_util$map_data2$tr10 == event$id])#(tractoutline$GEOID[tractoutline$GEOID == event$id])
   })
   
   return(vals)

@@ -109,9 +109,9 @@ mod_plot_tract_server <- function(input, output, session,
                position = position_dodge(width = 0),
                size = 4) +
       scale_color_manual(values = c("#0054A4", "#78A22F"), name = "Legend:") +
-      labs(y = "", x = "Scaled and standardized value (z-score)") +
+      labs(y = "", x = "Scaled and standardized value (z-score)\n(high z-score = large opportunity") +
     council_theme() +
-    xlim(min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
+    xlim(-20, 10)+#min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
     theme(legend.position = "top")
   })
  
