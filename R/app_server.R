@@ -30,7 +30,7 @@ app_server <- function( input, output, session ) {
   map_util <- callModule(mod_map_utils_server, "map_utils_ui_1",
                          map_selections = map_selections)
   
-  observe({print(map_util$map_data2)})
+  # observe({print(head(map_util$map_data2))}) #to check that it's working
   
   callModule(mod_map_overview_server, "map_overview_ui_1",
              map_selections = map_selections,

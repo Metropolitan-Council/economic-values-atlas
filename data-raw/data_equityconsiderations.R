@@ -77,7 +77,12 @@ eva_data_main <- eva_data_raw %>%
          SD = sd(raw_value, na.rm = T),
          z_score = (raw_value - MEAN)/SD) %>%
   select(-MEAN, -SD) %>%
-  left_join(eva_data_codes)
+  left_join(eva_data_codes) %>%
+  #we want high opportunity to be a high value, so this reorders those values if needed
+  mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
+    (z_score)
+    else if (interpret_high_value == "low_opportunity")
+      (z_score * (-1)))
 
 usethis::use_data(eva_data_main, overwrite = TRUE)
 
