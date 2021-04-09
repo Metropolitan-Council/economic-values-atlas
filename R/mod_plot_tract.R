@@ -19,6 +19,7 @@ mod_plot_tract_ui <- function(id){
 #' plot_tract Server Function
 #'
 #' @noRd 
+#' @import ggplot2
 mod_plot_tract_server <- function(input, output, session,
                                   tract_selections = tract_selections,
                                   map_util = map_util){
@@ -73,20 +74,61 @@ mod_plot_tract_server <- function(input, output, session,
   # return(vals2)
   
   
+  # output$bargraph <- renderPlot({
+  #   print("making graph")
+  #   ggplot() + geom_point(aes(x = MEAN, y = name), data = make_tract_avgs())
+  #   # vals2$niceplot
+  #     # ggplot() +
+  #     #   geom_point(data = make_tract_avgs, aes(y = name, x = opportunity_zscore), col = "black") +
+  #     # # geom_point(data = make_selected_vals, aes(y = name, x = opportunity_zscore), col = "blue") +
+  #     # theme_bw() #+
+  #     # scale_fill_brewer(palette = "Paired") +
+  #     # facet_grid(Category~.,  space = "free_y", scales = "free_y") +
+  #     # theme(legend.position = "bottom")
+  # })
+  
+  
+  
+  
+  #### more elegant??
+  make_plot_vals <-  reactive({
+    selected_tract <- map_util$plot_data2 %>%
+      ungroup() %>%
+      filter(tr10 == tract_selections$selected_tract) %>%
+      rename(ZSCORE = z_score,
+             RAW = raw_value) %>%
+      mutate(dsource = "Selected tract") %>%
+      select(name, ZSCORE, RAW, dsource)
+    
+    tract_avgs <- map_util$plot_data2 %>%
+      # eva.app::eva_data_main %>%
+      ungroup() %>%
+      group_by(name) %>% 
+      summarise(ZSCORE = mean(opportunity_zscore, na.rm = T),
+                RAW = mean(raw_value, na.rm = T)) %>%
+      mutate(dsource = "All tracts \n(average)")
+    
+    toplot <- bind_rows(selected_tract, tract_avgs)
+    
+    return(toplot)
+  })
+  
   output$bargraph <- renderPlot({
     print("making graph")
-    ggplot() + geom_point(aes(x = MEAN, y = name), data = make_tract_avgs())
+    ggplot() + geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals()) +
     # vals2$niceplot
-      # ggplot() +
-      #   geom_point(data = make_tract_avgs, aes(y = name, x = opportunity_zscore), col = "black") +
-      # # geom_point(data = make_selected_vals, aes(y = name, x = opportunity_zscore), col = "blue") +
-      # theme_bw() #+
-      # scale_fill_brewer(palette = "Paired") +
-      # facet_grid(Category~.,  space = "free_y", scales = "free_y") +
-      # theme(legend.position = "bottom")
+    # ggplot() +
+    #   geom_point(data = make_tract_avgs, aes(y = name, x = opportunity_zscore), col = "black") +
+    # # geom_point(data = make_selected_vals, aes(y = name, x = opportunity_zscore), col = "blue") +
+    theme_bw() #+
+    # scale_fill_brewer(palette = "Paired") +
+    # facet_grid(Category~.,  space = "free_y", scales = "free_y") +
+    # theme(legend.position = "bottom")
   })
  
 }
+
+
     
 ## To be copied in the UI
 # mod_plot_tract_ui("plot_tract_ui_1")
