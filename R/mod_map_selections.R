@@ -71,19 +71,19 @@ mod_map_selections_server <- function(input, output, session){
   
   input_values <- reactiveValues() # start with an empty reactiveValues object.
   
-  # eventReactive(input$goButton, {
   observeEvent(input$goButton,{
       input$goButton
+    
     input_values$peopleInput <- input$peopleInput
     input_values$placeInput <- input$placeInput
     input_values$businessInput <- input$businessInput
+    
     input_values$allInputs <- as_tibble(input$peopleInput) %>%
       rbind(as_tibble(input$placeInput)) %>%
       rbind(as_tibble(input$businessInput)) 
   })
   
   
-  # 
   # observeEvent(input$peopleInput, { # only update when the user changes the eva input
   #   input_values$peopleInput <- input$peopleInput # create/update the eva input value in our reactiveValues object
   # })
