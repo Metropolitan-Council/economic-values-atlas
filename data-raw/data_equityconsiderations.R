@@ -80,7 +80,8 @@ MNtract <- tigris::tracts(
 ) %>%
   select(GEOID)
 
-eva_tract_geometry <- MNtract
+eva_tract_geometry <- MNtract %>% 
+  st_transform(4326)
 
 usethis::use_data(eva_tract_geometry, overwrite = TRUE)
 

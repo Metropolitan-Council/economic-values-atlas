@@ -55,27 +55,27 @@ mod_map_overview_server <- function(input, output, session,
       ) %>%
       
       
-      addMapPane("trans", zIndex = 430) %>%
-      addCircles(
-        data = eva.app::trans_stops,
-        group = "Transit",
-        radius = 20,
-        fill = T,
-        stroke = TRUE,
-        weight = 2, 
-        color = councilR::colors$transitRed,
-        fillColor = councilR::colors$transitRed,
-        options = pathOptions(pane = "trans")
-      ) %>%
-      
+      # addMapPane("trans", zIndex = 430) %>%
+      # addCircles(
+      #   data = eva.app::trans_stops,
+      #   group = "Transit",
+      #   radius = 20,
+      #   fill = T,
+      #   stroke = TRUE,
+      #   weight = 2, 
+      #   color = councilR::colors$transitRed,
+      #   fillColor = councilR::colors$transitRed,
+      #   options = pathOptions(pane = "trans")
+      # ) %>%
+      # 
       addMapPane("tractoutline", zIndex = 699) %>%
       addPolygons( #just need to add the tract outline
-        data = tractoutline,
+        data = eva_tract_geometry,
         stroke = T, weight = .2,
         fillColor = "black", 
         fillOpacity = 0,
         color = councilR::colors$suppGray,
-        popup = ~paste0("Tract ID: ", tractoutline$GEOID),
+        popup = ~paste0("Tract ID: ", eva_tract_geometry$GEOID), #eva_tract_geometry
         highlightOptions = highlightOptions(
           stroke = TRUE,
           color = "black",
@@ -114,23 +114,23 @@ mod_map_overview_server <- function(input, output, session,
   toListen_mainleaflet <- reactive({
     list(
       # current_tab,
-      map_util$make_map_data2,
+      map_util$map_data2,
       map_selections$goButton
     )
   })
   
-  
-  observeEvent(
-    toListen_mainleaflet(),
-    {
-    print("step 1")
-      if(is.null(map_util$make_map_data2)){
-        # if(is.null(map_selections$allInputs)){
-        print('nodata')} else {
-                 print("rendering polygons")
+  observeEvent(toListen_mainleaflet(),
+               {
+                 print("step 1")
+                 if (is.null(map_util$map_data2)) {
+                   print('nodata')
+                 } else {
+                   print("rendering polygons")
                    leafletProxy("map") %>%
+                     clearGroup("zscores") %>%
                      addPolygons(
-                       data = map_util$make_map_data2,
+                       data = map_util$map_data2 %>% st_transform(4326),
+                       group = "zscores",
                        stroke = TRUE,
                        color = councilR::colors$suppGray,
                        opacity = 0.6,
@@ -138,17 +138,16 @@ mod_map_overview_server <- function(input, output, session,
                        fillOpacity = 0.3,
                        smoothFactor = 0.2,
                        fillColor = ~ colorNumeric(
-                         n = 9,
+                         n = 4,
                          palette = "Blues",
-                         domain = map_util$make_map_data2 %>% select("MEAN") %>% .[[1]]
-                       )(map_util$make_map_data2 %>% select("MEAN") %>% .[[1]])
-                     ) } 
-               }
-    )
+                         domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
+                       )(map_util$map_data2 %>% select("MEAN") %>% .[[1]])
+                     )
+                   
+                 }
+               })
   
 
-  
-  
   #leaflet print geoid -----------
   
   #ideally want to do nested reactive values?!?
