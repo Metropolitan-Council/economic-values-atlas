@@ -60,35 +60,6 @@ mod_plot_tract_server <- function(input, output, session,
     return(p)
   })
   
-  # vals2 <- reactiveValues()
-  # 
-  # observe({
-  #   vals2$avgs <- make_tract_avgs()
-  # })
-  # 
-  # observe({
-  #   vals2$selected <- make_selected_vals()
-  # })
-  # 
-  # 
-  # return(vals2)
-  
-  
-  # output$bargraph <- renderPlot({
-  #   print("making graph")
-  #   ggplot() + geom_point(aes(x = MEAN, y = name), data = make_tract_avgs())
-  #   # vals2$niceplot
-  #     # ggplot() +
-  #     #   geom_point(data = make_tract_avgs, aes(y = name, x = opportunity_zscore), col = "black") +
-  #     # # geom_point(data = make_selected_vals, aes(y = name, x = opportunity_zscore), col = "blue") +
-  #     # theme_bw() #+
-  #     # scale_fill_brewer(palette = "Paired") +
-  #     # facet_grid(Category~.,  space = "free_y", scales = "free_y") +
-  #     # theme(legend.position = "bottom")
-  # })
-  
-  
-  
   
   #### more elegant??
   make_plot_vals <-  reactive({
@@ -98,32 +69,50 @@ mod_plot_tract_server <- function(input, output, session,
       rename(ZSCORE = z_score,
              RAW = raw_value) %>%
       mutate(dsource = "Selected tract") %>%
-      select(name, ZSCORE, RAW, dsource)
+      select(name, ZSCORE, RAW, dsource) 
     
     tract_avgs <- map_util$plot_data2 %>%
-      # eva.app::eva_data_main %>%
       ungroup() %>%
       group_by(name) %>% 
       summarise(ZSCORE = mean(opportunity_zscore, na.rm = T),
                 RAW = mean(raw_value, na.rm = T)) %>%
       mutate(dsource = "All tracts \n(average)")
     
-    toplot <- bind_rows(selected_tract, tract_avgs)
+    toplot <- bind_rows(selected_tract, tract_avgs)# %>%
+      # gather(key = "key", value = "value", -name, -dsource)
     
     return(toplot)
   })
   
+  # test1 <- eva_data_main %>% ungroup() %>%
+  #   filter(tr10 == "27139081100") %>%
+  #   rename(ZSCORE = z_score,
+  #          RAW = raw_value) %>%
+  #   mutate(dsource = "Selected tract") %>%
+  #   select(name, ZSCORE, RAW, dsource)
+  # 
+  # test2 <-  eva.app::eva_data_main %>%
+  #   ungroup() %>%
+  #   group_by(name) %>%
+  #   summarise(ZSCORE = mean(opportunity_zscore, na.rm = T),
+  #             RAW = mean(raw_value, na.rm = T)) %>%
+  #   mutate(dsource = "All tracts \n(average)")
+  # 
+  # test3 <- bind_rows(test1, test2) #%>%
+  #   gather(key = "key", value = "value", -name, -dsource)
+  
   output$bargraph <- renderPlot({
     print("making graph")
-    ggplot() + geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals()) +
-    # vals2$niceplot
-    # ggplot() +
-    #   geom_point(data = make_tract_avgs, aes(y = name, x = opportunity_zscore), col = "black") +
-    # # geom_point(data = make_selected_vals, aes(y = name, x = opportunity_zscore), col = "blue") +
-    theme_bw() #+
-    # scale_fill_brewer(palette = "Paired") +
-    # facet_grid(Category~.,  space = "free_y", scales = "free_y") +
-    # theme(legend.position = "bottom")
+    ggplot() + 
+      # geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals()) +
+      geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals(),
+               position = position_dodge(width = 0),
+               size = 4) +
+      scale_color_manual(values = c("#0054A4", "#78A22F"), name = "Legend:") +
+      labs(y = "", x = "Scaled and standardized value (z-score)") +
+    council_theme() +
+    xlim(min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
+    theme(legend.position = "top")
   })
  
 }
