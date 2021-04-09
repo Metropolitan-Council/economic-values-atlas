@@ -25,18 +25,19 @@ app_server <- function( input, output, session ) {
   
   map_selections <- callModule(mod_map_selections_server, "map_selections_ui_1")
   
-  observe({print(map_selections$allInputs)})
+  # observe({print(map_selections$allInputs)}) #to check that selections are working
   
   map_util <- callModule(mod_map_utils_server, "map_utils_ui_1",
                          map_selections = map_selections)
   
-  observe({print((map_util$map_data2))}) #to check that it's working
+  # observe({print((map_util$map_data2))}) #to check that data summary is working
 
-  callModule(mod_map_overview_server, "map_overview_ui_1",
+  test <- callModule(mod_map_overview_server, "map_overview_ui_1",
              map_selections = map_selections,
              map_util = map_util)
   
-
+  observe({print(test$vals)}) #to check that tract clicking is working
+  
   ########
   
   # observe({

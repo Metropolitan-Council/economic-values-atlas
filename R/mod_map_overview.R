@@ -161,7 +161,7 @@ mod_map_overview_server <- function(input, output, session,
   # # return(selected_tract)
   
   #this works, but want to save it
-  # vals1 <- reactiveValues()
+  # vals <- reactiveValues()
   observe({
     event <- input$map_shape_click
     output$selected_tract <- renderText(tractoutline$GEOID[tractoutline$GEOID == event$id])
@@ -169,6 +169,13 @@ mod_map_overview_server <- function(input, output, session,
   })
   # return(vals1)
   
+  vals <- reactiveValues()
+  observe({
+    event <- input$map_shape_click
+    vals$selected_tract <- (tractoutline$GEOID[tractoutline$GEOID == event$id])
+  })
+  
+  return(vals)
   
   # make_barg_data <- reactive({
   #   p <- eva.app::acs_tract %>%
