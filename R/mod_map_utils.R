@@ -30,24 +30,20 @@ mod_map_utils_server <- function(input, output, session,
   
   #but we want to get a single averaged value for every tract to put on the map
   make_map_data2 <- reactive({
-    p <- eva.app::eva_data_main %>% 
+    p <- eva.app::eva_data_main %>%
       filter(name %in% map_selections$allInputs$value) %>%
-      group_by(tr10) 
-      
-    
-    eva_data_main %>%
       group_by(tr10) %>%
-      mutate(z_score = if(interpret_high_value == "high_opportunity") (z_score) else if(interpret_high_value == "low_opportunity") (z_score * (-1)))
-      summarise(MEAN = mean(z_score, na.rm = T))
-    
-    # dplyr::select(
-    # var %in% c("avgcommute", "pov185rate"))#selected_map_vars$input_eva) 
+      summarise(MEAN = mean(opportunity_zscore, na.rm = T))
     return(p)
   })
   
   ##-------------
   
   vals <- reactiveValues()
+  
+  observe({
+    vals$plot_data2 <- make_plot_data2()
+  })
   
   observe({
     vals$map_data2 <- make_map_data2()
