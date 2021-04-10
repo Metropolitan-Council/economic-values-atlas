@@ -28,14 +28,6 @@ mod_map_overview_server <- function(input, output, session,
                                     ){
   ns <- session$ns
   
-  # base leaflet isn't working
-  
-  # output$map <- mod_map_base_server(
-  #   input = input,
-  #   output = output,
-  #   session = session
-  # )
-  
   output$map <- renderLeaflet({ #  map --------
     leaflet() %>%
       setView(
@@ -142,35 +134,6 @@ mod_map_overview_server <- function(input, output, session,
                    
                  }
                })
-  
-  
-  # #### startup
-  # observeEvent(
-  #   once = TRUE,
-  #   ignoreInit = TRUE,
-  #   label = "startup",
-  #   # current_tab,
-  #   {print("Rendering start-up map")
-  #     leafletProxy("map") %>%
-  #       addPolygons(
-  #         data = eva_data_main %>%
-  #           group_by(tract_string) %>%
-  #           summarise(MEAN = mean(opportunity_zscore, na.rm = T)) %>%
-  #           left_join(eva_tract_geometry, by = c("tract_string" = "GEOID")) %>%
-  #           st_as_sf() %>%
-  #           st_transform(4326) %>%
-  #           mutate(RANK = min_rank(desc(MEAN))),
-  #         group = "zscores",
-  #         stroke = TRUE,
-  #         color = councilR::colors$suppGray,
-  #         opacity = 0.9,
-  #         weight = 0.25,
-  #         fillOpacity = 0.7,
-  #         smoothFactor = 0.2
-  #       )
-      # })
-
-  
 
   #leaflet print geoid -----------
   
@@ -194,7 +157,7 @@ mod_map_overview_server <- function(input, output, session,
   vals <- reactiveValues()
   observe({
     event <- input$map_shape_click
-    vals$selected_tract <- (map_util$map_data2$tract_string[map_util$map_data2$tract_string == event$id])#(tractoutline$GEOID[tractoutline$GEOID == event$id])
+    vals$selected_tract <- (map_util$map_data2$tract_string[map_util$map_data2$tract_string == event$id])
   })
   
   return(vals)
