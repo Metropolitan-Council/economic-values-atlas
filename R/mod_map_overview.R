@@ -139,7 +139,7 @@ mod_map_overview_server <- function(input, output, session,
                        smoothFactor = 0.2,
                        fillColor = ~ colorNumeric(
                          n = 5,
-                         palette = "BrBG",
+                         palette = "magma",
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
                        )(map_util$map_data2 %>% select("MEAN") %>% .[[1]]),
                        popup = ~paste0("Tract ID: ", map_util$map_data2$tract_string, 
@@ -157,7 +157,7 @@ mod_map_overview_server <- function(input, output, session,
                        layerId = "zscores",
                        pal = colorNumeric(
                          n = 5,
-                         palette = "BrBG",
+                         palette = "magma",
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
                        ),
                        values = (map_util$map_data2 %>% select("MEAN") %>% .[[1]])
