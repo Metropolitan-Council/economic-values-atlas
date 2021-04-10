@@ -25,43 +25,6 @@ mod_plot_tract_server <- function(input, output, session,
                                   map_util = map_util){
   ns <- session$ns
   
-  #we need to make this data for a bar plot, or something like that
-  make_plot_data2 <- reactive({
-    p <- eva_data_main %>% 
-      filter(name %in% map_selections$allInputs$value)
-    return(p)
-  })
-  
-  make_tract_avgs <- reactive({
-    p <- map_util$plot_data2 %>%
-    ungroup() %>%
-    # st_drop_geometry() %>%
-    group_by(name) %>% 
-    summarise(MEAN = mean(opportunity_zscore, na.rm = T))
-    return(p)
-  })
-
-  make_selected_vals <-  reactive({
-    p <- map_util$plot_data2 %>%
-    ungroup() %>%
-    # st_drop_geometry() %>%
-    filter(tract_string %in% tract_selections$selected_tract)
-    return(p)
-  })
-  
-  make_niceplot <- reactive({
-    p <- if(is.numeric(tract_selections$selected_tract)) {
-      ggplot() +
-        geom_point(data = make_tract_avgs, aes(y = name, x = opportunity_zscore), col = "black") 
-    } else {
-      ggplot() +
-        geom_point(data = eva_vars, aes(y = name, x = n), col = "green")
-    }
-    return(p)
-  })
-  
-  
-  #### more elegant??
   make_plot_vals <-  reactive({
     selected_tract <- map_util$plot_data2 %>%
       ungroup() %>%
