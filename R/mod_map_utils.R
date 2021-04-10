@@ -32,9 +32,9 @@ mod_map_utils_server <- function(input, output, session,
   make_map_data2 <- reactive({
     p <- eva_data_main %>%
       filter(name %in% map_selections$allInputs$value) %>%
-      group_by(tr10) %>%
+      group_by(tract_string) %>%
       summarise(MEAN = mean(opportunity_zscore, na.rm = T)) %>%
-      left_join(eva_tract_geometry, by = c("tr10" = "GEOID")) %>%
+      left_join(eva_tract_geometry, by = c("tract_string" = "GEOID")) %>%
       st_as_sf() %>%
       st_transform(4326) %>%
       mutate(RANK = min_rank(desc(MEAN)))

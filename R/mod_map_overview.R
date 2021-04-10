@@ -30,8 +30,8 @@ mod_map_overview_server <- function(input, output, session,
   output$map <-renderLeaflet({ #  map --------
     leaflet() %>%
       setView(
-        lat = 44.963,
-        lng = -93.22,
+        lat = st_coordinates(map_centroid)[2], #44.963,
+        lng = st_coordinates(map_centroid)[1], #-93.22,
         zoom = 10
       ) %>%
       addMapPane(name = "Stamen Toner", zIndex = 430) %>%
@@ -142,11 +142,11 @@ mod_map_overview_server <- function(input, output, session,
                          palette = "BrBG",
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
                        )(map_util$map_data2 %>% select("MEAN") %>% .[[1]]),
-                       popup = ~paste0("Tract ID: ", map_util$map_data2$tr10, 
+                       popup = ~paste0("Tract ID: ", map_util$map_data2$tract_string, 
                                        "<br>Average z-score: ", round(map_util$map_data2$MEAN, 3),
                                        "<br>Rank of z-score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
                        options = pathOptions(pane = "zscore"),
-                       layerId = ~tr10
+                       layerId = ~tract_string
                      ) %>%
                      
                      addLegend(
@@ -182,14 +182,14 @@ mod_map_overview_server <- function(input, output, session,
   # #this works, but want to save it
   # observe({
   #   event <- input$map_shape_click
-  #   output$selected_tract <- renderText(map_util$map_data2$tr10[map_util$map_data2$tr10] == event$id)#renderText(tractoutline$GEOID[tractoutline$GEOID == event$id])
+  #   output$selected_tract <- renderText(map_util$map_data2$tract_string[map_util$map_data2$tract_string] == event$id)#renderText(tractoutline$GEOID[tractoutline$GEOID == event$id])
   # })
 
   #save the selected tract
   vals <- reactiveValues()
   observe({
     event <- input$map_shape_click
-    vals$selected_tract <- (map_util$map_data2$tr10[map_util$map_data2$tr10 == event$id])#(tractoutline$GEOID[tractoutline$GEOID == event$id])
+    vals$selected_tract <- (map_util$map_data2$tract_string[map_util$map_data2$tract_string == event$id])#(tractoutline$GEOID[tractoutline$GEOID == event$id])
   })
   
   return(vals)

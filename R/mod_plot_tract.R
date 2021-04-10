@@ -45,7 +45,7 @@ mod_plot_tract_server <- function(input, output, session,
     p <- map_util$plot_data2 %>%
     ungroup() %>%
     # st_drop_geometry() %>%
-    filter(tr10 %in% tract_selections$selected_tract)
+    filter(tract_string %in% tract_selections$selected_tract)
     return(p)
   })
   
@@ -65,7 +65,7 @@ mod_plot_tract_server <- function(input, output, session,
   make_plot_vals <-  reactive({
     selected_tract <- map_util$plot_data2 %>%
       ungroup() %>%
-      filter(tr10 == tract_selections$selected_tract) %>%
+      filter(tract_string == tract_selections$selected_tract) %>%
       rename(ZSCORE = z_score,
              RAW = raw_value) %>%
       mutate(dsource = "Selected tract") %>%
@@ -85,7 +85,7 @@ mod_plot_tract_server <- function(input, output, session,
   })
   
   # test1 <- eva_data_main %>% ungroup() %>%
-  #   filter(tr10 == "27139081100") %>%
+  #   filter(tract_string == "27139081100") %>%
   #   rename(ZSCORE = z_score,
   #          RAW = raw_value) %>%
   #   mutate(dsource = "Selected tract") %>%

@@ -28,19 +28,19 @@ mod_table_server <- function(input, output, session,
     selected_tract <- map_util$plot_data2 %>%
       # eva_data_main %>%
       ungroup() %>%
-      group_by(tr10) %>%
+      group_by(tract_string) %>%
       summarise(`Average z-score` = mean(opportunity_zscore, na.rm = T))
     
     all_tracts <- #eva_data_main %>% 
       map_util$plot_data2 %>%
       ungroup() %>%
-      select(tr10, name, raw_value) %>% #, opportunity_zscore) %>%
+      select(tract_string, name, raw_value) %>% #, opportunity_zscore) %>%
       pivot_wider(names_from = c(name), values_from = c(raw_value))#c(opportunity_zscore, raw_value)) 
     names(all_tracts) <- gsub(x = names(all_tracts), pattern = "opportunity_zscore_", replacement = "Z-score; ")
     names(all_tracts) <- gsub(x = names(all_tracts), pattern = "raw_value_", replacement = "Raw value; ")
     
     fulltable <- full_join(selected_tract, all_tracts) %>%
-      rename(`Tract ID` = tr10)
+      rename(`Tract ID` = tract_string)
 
     return(fulltable)
   })

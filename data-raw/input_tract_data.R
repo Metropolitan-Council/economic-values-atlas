@@ -47,7 +47,8 @@ eva_data_raw <- equity %>%
   mutate(luse_commind = sum(luse_comm, luse_indus, na.rm=T),
          pnonwhite = 1 - pwhitenh) %>%
   select(-luse_comm, -luse_indus,
-         -pwhitenh)
+         -pwhitenh) %>%
+  rename(tract_string = tr10)
 
 ###################
 # add some human-readable metadata
@@ -69,41 +70,33 @@ eva_data_codes <- tribble(~variable, ~name, ~type, ~interpret_high_value,
                           "luse_undev", "Proportion of acres that are undeveloped", "place", "high_opportunity")
 
 
-###################
-# join spatial elements
-###################
-## ---------------get tracts via tigris
-MNtract <- tigris::tracts(
-  state = "MN",
-  county = c(
-    "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"#,
-    # "Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright" #if want to add collar counties
-  ),
-  class = "sf"
-) %>%
-  select(GEOID)
-
-eva_tract_geometry <- MNtract %>% 
-  st_transform(4326)
-
-usethis::use_data(eva_tract_geometry, overwrite = TRUE)
+# ###################
+# # gather spatial elements
+# ###################
+# ## ---------------get tracts via tigris
+# MNtract <- tigris::tracts(
+#   state = "MN",
+#   county = c(
+#     "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"#,
+#     # "Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright" #if want to add collar counties
+#   ),
+#   class = "sf"
+# ) %>%
+#   select(GEOID)
+# 
+# eva_tract_geometry <- MNtract %>% 
+#   st_transform(4326)
+# 
+# usethis::use_data(eva_tract_geometry, overwrite = TRUE)
 
 ###################
 # create final dataset - no spatial data
 #note spatial data should be joined after any summarizing is done to save some computation time
 ###################
 
-# #wide data
-# eva_data_main <- eva_data_raw %>% 
-#   transmute(tr10,
-#             across(c(2:ncol(.)), 
-#                    list(zscore = ~scale(.x, center = T, scale = T)),
-#                    # list(mean = ~mean(.x, na.rm = T), sd = ~sd(.x, na.rm = T)),
-#                    .names = "{.col}.{.fn}")) 
-
 # #long data
 eva_data_main <- eva_data_raw %>%
-  gather("variable", "raw_value", -tr10) %>%
+  gather("variable", "raw_value", -tract_string) %>%
   group_by(variable) %>%
   mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
@@ -114,9 +107,7 @@ eva_data_main <- eva_data_raw %>%
   mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
     (z_score)
     else if (interpret_high_value == "low_opportunity")
-      (z_score * (-1))) #%>%
-  #join the spatial element for mapping
-  # left_join(MNtract, by = c("tr10" = "GEOID"))
+      (z_score * (-1))) 
 
 usethis::use_data(eva_data_main, overwrite = TRUE)
 
