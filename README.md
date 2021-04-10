@@ -27,33 +27,39 @@ At the most basic level, users may upload an Excel document containing 2
 sheets. Users can also leverage R scripts to aggregate disparate data
 sources.
 
+To understand what you will be creating, please view [this example for
+the Twin Cities region](https://metrotransitmn.shinyapps.io/eva_app_v1/)
+or [this example for the Portland
+region](https://metrotransitmn.shinyapps.io/eva_app_pdx/).
+
 ### Set user parameters
 
 First, set the following parameters which indicate the state/s and
 county/ies from which tract data comes from. Right now, this code is set
 to handle up to 2 states although this can easily be expanded if there
 is a need. Also set the metro name, and the format of the data inputs.
+This should be the only section of code that needs editing.
 
 ``` r
-# state_1 <- "OR"
-# county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
-# 
-# state_2 <- "WA"
-# county_2 <- c("Clark", "Skamania")
-# 
-# metro <- "pdx"
-# dataformat <- "excel"
+state_1 <- "OR"
+county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
+
+state_2 <- "WA"
+county_2 <- c("Clark", "Skamania")
+
+metro <- "pdx"
+dataformat <- "excel"
 
 #####
 
-state_1 <- "MN"
-county_1 <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")
-
-state_2 <- NA
-county_2 <- NA
-
-metro <- "msp"
-dataformat <- "rscript"
+# state_1 <- "MN"
+# county_1 <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")
+# 
+# state_2 <- NA
+# county_2 <- NA
+# 
+# metro <- "msp"
+# dataformat <- "rscript"
 ```
 
 ### Read and process raw data
@@ -101,9 +107,10 @@ inclination is to create a “Brookings” style for the generic app.
 
 ### Launch the app
 
-The following code will launch your region’s app (!!). To deploy it on
-an R server, you can click the blue button on the top right hand side of
-the app that will launch locally.
+The following code will launch your region’s app (!!). Please run all
+the code chunks (two) prior to this section in order to see proper
+performance. To deploy it on an R server, you can click the blue button
+on the top right hand side of the app that will launch locally.
 
 ## Future plans
 

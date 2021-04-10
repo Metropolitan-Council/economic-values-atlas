@@ -5,8 +5,8 @@ account: metrotransitmn
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3940116
-bundleId: 4453428
+bundleId: 4454474
 url: https://metrotransitmn.shinyapps.io/eva_app_pdx/
-when: 1618038759.64765
+when: 1618061956.75141
 asMultiple: FALSE
 asStatic: FALSE
