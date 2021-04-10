@@ -11,7 +11,7 @@ mod_plot_tract_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    plotOutput(ns("bargraph"), height = 500)
+    plotOutput(ns("bargraph"), height = 700)
     
   )
 }
@@ -25,6 +25,15 @@ mod_plot_tract_server <- function(input, output, session,
                                   map_util = map_util){
   ns <- session$ns
   
+  # PlotHeight <- reactive(return(
+  #                           if ((nrow(map_util$plot_data2) * 33) > 400) {
+  #                             (nrow(map_util$plot_data2) * 33)
+  #                           } else {
+  #                             400
+  #                           }
+  #                         )
+  # )
+
   make_plot_vals <-  reactive({
     selected_tract <- map_util$plot_data2 %>%
       ungroup() %>%
@@ -64,7 +73,8 @@ mod_plot_tract_server <- function(input, output, session,
   # test3 <- bind_rows(test1, test2) #%>%
   #   gather(key = "key", value = "value", -name, -dsource)
   
-  output$bargraph <- renderPlot({
+  output$bargraph <- renderPlot(#height = function() PlotHeight(), 
+    {
     if(identical(tract_selections$selected_tract, character(0))) {
       print("nodata")
       ggplot() +
