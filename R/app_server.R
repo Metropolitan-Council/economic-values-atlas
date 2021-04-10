@@ -7,22 +7,6 @@
 app_server <- function( input, output, session ) {
   # List the first level callModules here
   
-  selected_map_vars <- callModule(mod_layerselection_server, "layerselection_ui_1")
-  
-  util_layers <- callModule(mod_layerutils_server, "layerutils_ui_1",
-                            selected_map_vars = selected_map_vars)
-  
-  # observe({
-  #   print(selected_map_vars$input_eva)
-  # })
-  
-  callModule(mod_evamap_server, "evamap_ui_1",
-             selected_map_vars = selected_map_vars,
-             util_layers = util_layers)
-  
-  
-  ##### updated map
-  
   map_selections <- callModule(mod_map_selections_server, "map_selections_ui_1")
   
   # observe({print(map_selections$allInputs)}) #to check that selections are working
@@ -47,14 +31,4 @@ app_server <- function( input, output, session ) {
              tract_selections = tract_selections,
              map_util = map_util)
   
-  ########
-  
-  # observe({
-  #   print(mod_evamap_server$output$selected_tract)
-  # })
-
-  callModule(mod_evabar_server, "evabar_ui_1")
-
-  callModule(mod_evaspider_server, "evaspider_ui_1")
-
   }
