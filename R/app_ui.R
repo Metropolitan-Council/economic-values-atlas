@@ -38,9 +38,12 @@ app_ui <- function(request) {
                                   fluidRow(mod_map_overview_ui("map_overview_ui_1"))),
                         hr(),
                           
-                        fluidRow(column(12,
+                        fluidRow(column(width = 6,
                                         mod_plot_tract_ui("plot_tract_ui_1")
                                         # mod_evabar_ui("evabar_ui_1")
+                                        ),
+                                 column(width = 6,
+                                        mod_table_ui("table_ui_1")
                                         ))
     
     ),
