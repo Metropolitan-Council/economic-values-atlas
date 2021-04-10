@@ -142,7 +142,9 @@ mod_map_overview_server <- function(input, output, session,
                          palette = "BrBG",
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
                        )(map_util$map_data2 %>% select("MEAN") %>% .[[1]]),
-                       popup = ~paste0("Tract ID: ", map_util$map_data2$tr10, "<br> Average z-score: ", round(map_util$map_data2$MEAN, 3)),
+                       popup = ~paste0("Tract ID: ", map_util$map_data2$tr10, 
+                                       "<br>Average z-score: ", round(map_util$map_data2$MEAN, 3),
+                                       "<br>Rank of z-score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
                        options = pathOptions(pane = "zscore"),
                        layerId = ~tr10
                      ) %>%

@@ -36,8 +36,9 @@ mod_map_utils_server <- function(input, output, session,
       summarise(MEAN = mean(opportunity_zscore, na.rm = T)) %>%
       left_join(eva_tract_geometry, by = c("tr10" = "GEOID")) %>%
       st_as_sf() %>%
-      st_transform(4326)
-    
+      st_transform(4326) %>%
+      mutate(RANK = min_rank(desc(MEAN)))
+ 
     # leaflet() %>%
     #   setView(lat = 44.963, lng = -93.22, zoom = 9) %>%
     #   addMapPane(name = "Stamen Toner", zIndex = 430) %>%

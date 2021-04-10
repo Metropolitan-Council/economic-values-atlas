@@ -31,7 +31,7 @@ app_server <- function( input, output, session ) {
                          map_selections = map_selections)
   
   # observe({print((map_util$map_data2))}) #to check that data summary is working
-  observe({print((map_util$plot_data2))}) #to check that data summary is working
+  # observe({print((map_util$plot_data2))}) #to check that plot summary is working
   
   tract_selections <- callModule(mod_map_overview_server, "map_overview_ui_1",
              map_selections = map_selections,

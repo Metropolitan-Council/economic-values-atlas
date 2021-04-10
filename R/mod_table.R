@@ -10,7 +10,7 @@
 mod_table_ui <- function(id){
   ns <- NS(id)
   tagList(
-    tableOutput(ns("table"))
+    dataTableOutput(ns("table"))
     
   )
 }
@@ -34,8 +34,8 @@ mod_table_server <- function(input, output, session,
     all_tracts <- #eva_data_main %>% 
       map_util$plot_data2 %>%
       ungroup() %>%
-      select(tr10, name, raw_value, opportunity_zscore) %>%
-      pivot_wider(names_from = c(name), values_from = c(opportunity_zscore, raw_value)) 
+      select(tr10, name, raw_value) %>% #, opportunity_zscore) %>%
+      pivot_wider(names_from = c(name), values_from = c(raw_value))#c(opportunity_zscore, raw_value)) 
     names(all_tracts) <- gsub(x = names(all_tracts), pattern = "opportunity_zscore_", replacement = "Z-score; ")
     names(all_tracts) <- gsub(x = names(all_tracts), pattern = "raw_value_", replacement = "Raw value; ")
     
@@ -45,12 +45,14 @@ mod_table_server <- function(input, output, session,
     return(fulltable)
   })
   
-  output$table <- renderTable({
+  output$table <- renderDataTable({
     if(identical(tract_selections$selected_tract, character(0))) {
       print("nodata")
       tibble()
     } else {
-      make_table_vals()
+      (make_table_vals()
+       # options = list(pageLength =5)
+       )
     }
   })
 }

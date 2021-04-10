@@ -36,7 +36,7 @@ body {
 
 p {
 	margin: 0 auto !important; /*0 10px;*/
-	font-size: 13px;
+	font-size: 13pt;
   max-width: 1200px;
   width: auto;
 }
@@ -219,8 +219,8 @@ hr {
 	background: url("../www/3116.png");/*/url('https://farm9.staticflickr.com/8316/7949510262_a4c1932dbc_z.jpg');/*/
 	/*/background-image: url('https://static.pexels.com/photos/467659/pexels-photo-467659.jpeg');/*/
 /*/	height: 600px; /*/
-	min-height: 800px;
-/*/	max-height: 600px; /*/
+	min-height: 300px;
+	max-height: 600px; 
 	max-width: 1600px;
 	width: inherit;
 	background-attachment: fixed;
@@ -245,7 +245,7 @@ hr {
 	padding-right: 30px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	width: 30%;
+	width: 40%;
 	float: right;
 	font-weight: lighter;
 	line-height: 100%;
