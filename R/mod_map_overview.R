@@ -10,7 +10,7 @@
 mod_map_overview_ui <- function(id){
   ns <- NS(id)
   tagList(
-    HTML("<p>Select variables of interest at the left and update map to view results. Green values correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of our entire region. Click on any tract to get more information.</p>"),
+    HTML("<p>Select variables of interest at the left and update map to view results. Green values and high ranks correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of our entire region. Click on any tract to get more information.</p>"),
     leafletOutput(ns("map"), height = 700)#,
     
     # wellPanel(textOutput(ns("selected_tract")))
