@@ -60,7 +60,7 @@ mod_map_overview_server <- function(input, output, session,
       ) %>%
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
-        group = "Esri Imagery"
+        group = "Aerial Imagery"
       ) %>%
       addLayersControl(
         position = "bottomright",
@@ -68,7 +68,7 @@ mod_map_overview_server <- function(input, output, session,
         baseGroups = c(
           "Carto Positron",
           "Stamen Toner",
-          "Esri Imagery"
+          "Aerial Imagery"
         ),
         options = layersControlOptions(collapsed = T)
       ) %>%

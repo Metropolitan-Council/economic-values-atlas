@@ -12,11 +12,11 @@ urlcolor: blue
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = F, warning = F)
 
-source("./data-raw/user_tracts_fxn.R")
-
 library(readxl)
 library(tidyverse)
 library(sf)
+
+source("./data-raw/user_tracts_fxn.R")
 ```
 
 ## Overview
@@ -115,19 +115,26 @@ usethis::use_data(eva_data_main, overwrite = TRUE)
 ```
 
 
-## Edit and add any region-specific langauge
+### Edit and add any region-specific langauge
 
 There will likely be region-specific information that should be displayed alongside the data within the interactive application. A general shell is created here. But users should edit the `./R/mod_home.R` script for any introductory information which should be displayed. And the `./R/app_ui/R` script can be edited as well.
 
 Text and pictures may also be updated, and the interface can be styled with css. I'm not sure of the best way to make that portable. My inclination is to create a "Brookings" style for the generic app. 
 
-## Launch the app
+### Launch the app
 
 The following code will launch your region's app (!!). To deploy it on an R server, you can click the blue button on the top right hand side of the app that will launch locally.
 
-```{r deployapp, echo=T}
+```{r deployapp, echo=T, include=F}
 pkgload::load_all(export_all = FALSE, helpers = FALSE, attach_testthat = FALSE)
 options("golem.app.prod" = TRUE)
 eva.app::run_app() # add parameters here (if any)
 ```
 
+## Future plans
+
+What *are* our future plans?!?! 
+
+- How can we update the app (particularly the data inputs) to suit our region?
+- Are there national sources of supplemental data which might be nice to include (transit for instance?). If not, is this a thing that some code would still be helpful?
+- Is z-score the best variable here? What are the other tabs in the Portland data?

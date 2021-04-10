@@ -7,9 +7,10 @@ Ellen Esch
 -   [MetCouncil’s contributions](#metcouncils-contributions)
     -   [Set user parameters](#set-user-parameters)
     -   [Read and process raw data](#read-and-process-raw-data)
--   [Edit and add any region-specific
-    langauge](#edit-and-add-any-region-specific-langauge)
--   [Launch the app](#launch-the-app)
+    -   [Edit and add any region-specific
+        langauge](#edit-and-add-any-region-specific-langauge)
+    -   [Launch the app](#launch-the-app)
+-   [Future plans](#future-plans)
 
 ## Overview
 
@@ -34,22 +35,25 @@ to handle up to 2 states although this can easily be expanded if there
 is a need. Also set the metro name, and the format of the data inputs.
 
 ``` r
-state_1 <- "OR"
-county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
-
-state_2 <- "WA"
-county_2 <- c("Clark", "Skamania")
-
-metro <- "pdx"
-dataformat <- "excel"
+# state_1 <- "OR"
+# county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
+# 
+# state_2 <- "WA"
+# county_2 <- c("Clark", "Skamania")
+# 
+# metro <- "pdx"
+# dataformat <- "excel"
 
 #####
 
-# state_1 <- "MN"
-# county_1 <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")
+state_1 <- "MN"
+county_1 <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")
 
-# metro <- "msp"
-# dataformat <- "rscript"
+state_2 <- NA
+county_2 <- NA
+
+metro <- "msp"
+dataformat <- "rscript"
 ```
 
 ### Read and process raw data
@@ -83,7 +87,7 @@ If an R script is being used to aggregate the data, you may find it
 useful to follow the example for the Twin Cities outlined in the
 `input_tract_data.R` script.
 
-## Edit and add any region-specific langauge
+### Edit and add any region-specific langauge
 
 There will likely be region-specific information that should be
 displayed alongside the data within the interactive application. A
@@ -95,23 +99,20 @@ Text and pictures may also be updated, and the interface can be styled
 with css. I’m not sure of the best way to make that portable. My
 inclination is to create a “Brookings” style for the generic app.
 
-## Launch the app
+### Launch the app
 
 The following code will launch your region’s app (!!). To deploy it on
 an R server, you can click the blue button on the top right hand side of
 the app that will launch locally.
 
-``` r
-pkgload::load_all(export_all = FALSE, helpers = FALSE, attach_testthat = FALSE)
-options("golem.app.prod" = TRUE)
-eva.app::run_app() # add parameters here (if any)
-```
+## Future plans
 
-    ## [1] "rendering polygons"
-    ## character(0)
+What *are* our future plans?!?!
 
-    ## [1] "nodata"
-
-    ## [1] "nodata"
-
-![](README_files/figure-gfm/deployapp-1.png)<!-- -->
+-   How can we update the app (particularly the data inputs) to suit our
+    region?
+-   Are there national sources of supplemental data which might be nice
+    to include (transit for instance?). If not, is this a thing that
+    some code would still be helpful?
+-   Is z-score the best variable here? What are the other tabs in the
+    Portland data?
