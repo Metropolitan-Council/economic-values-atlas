@@ -26,14 +26,43 @@ eva_data_main <- read_xlsx("./data-raw/Portland CommunityMaster.xlsx", #place ex
 ) %>%
 select(-statename, -countyname, -tract) %>% #remove any extraneous columns
   gather("variable", "raw_value", -tract_string) %>%
+  right_join(eva_vars) %>%
   group_by(variable) %>%
   mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
+         MIN = min(raw_value, na.rm = T),
+         MAX = max(raw_value, na.rm = T),
          z_score = (raw_value - MEAN)/SD) %>%
-  select(-MEAN, -SD) %>%
+
+  #we want high opportunity to be a high value, so this reorders those values if needed
+  mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
+    (z_score)
+    else if (interpret_high_value == "low_opportunity")
+      (z_score * (-1))) %>%
+  
+  #need to create nominal weights
+  mutate(weights_nominal = if(interpret_high_value == "high_opportunity") {
+    (raw_value - MIN) / (MAX - MIN) * 10
+  } else if(interpret_high_value == "low_opportunity") {
+    (10 - raw_value - MIN) / (MAX - MIN) * 10
+  }) %>%
+  
+  #need help from brookings; what is this variable???
+  mutate(weights_scaled = if(interpret_high_value == "high_opportunity") {
+    (10 - pnorm(z_score)*10)
+    } else if (interpret_high_value == "low_opportunity") {
+      (pnorm(z_score)*10)
+      }) %>%
+  
+  #need help from brookigs here too; what is this?
+  # mutate(weights_rank = )
+  
+  #clean
+  select(-MEAN, -SD, -MIN, -MAX) %>%
   right_join(eva_vars) %>%
   #we want high opportunity to be a high value, so this reorders those values if needed
   mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
     (z_score)
     else if (interpret_high_value == "low_opportunity")
       (z_score * (-1))) 
+data.frame(head(eva_data_main))
