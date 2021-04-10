@@ -19,14 +19,11 @@ This script gives the workflow for creating the layers which will go into the EV
 
 
 ```{r cars}
-source("data_acs.R") # --> `acs_merge`
+source("data_equityconsiderations.r") # --> `acs_merge`
 ```
 
 
-## Gather data NOT reported in tracts (need to keep separate, due to data joins, etc. )
-```{nottracts}
-source("job_tract.R") # --> `job_tract`
-```
+
 
 ## Standardize variables (z-score)
 

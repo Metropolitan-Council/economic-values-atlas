@@ -23,14 +23,14 @@ mod_map_utils_server <- function(input, output, session,
  
   #we need to make this data for a bar plot, or something like that
   make_plot_data2 <- reactive({
-    p <- eva.app::eva_data_main %>% 
+    p <- eva_data_main %>% 
       filter(name %in% map_selections$allInputs$value)
     return(p)
   })
   
   #but we want to get a single averaged value for every tract to put on the map
   make_map_data2 <- reactive({
-    p <- eva.app::eva_data_main %>%
+    p <- eva_data_main %>%
       filter(name %in% map_selections$allInputs$value) %>%
       group_by(tr10) %>%
       summarise(MEAN = mean(opportunity_zscore, na.rm = T)) %>%

@@ -74,15 +74,10 @@ rvtl <- shiny::reactiveValuesToList
 #' @import fmsb
 #' @import shinyjs
 #' @import shinyWidgets
-#' 
+require(magrittr)
+load('./data/eva_data_main.rda')
 
-# unique(eva_data_main$variable)
-# eva_data_main %>%
-#   select(-z_score, -raw_value, -tr10) %>%
-#   mutate_all(as.factor) %>%
-#   sapply(levels)
-
-eva_vars <- eva.app::eva_data_main %>%
+eva_vars <- eva_data_main %>%
   dplyr::group_by(type, name, variable, interpret_high_value) %>%
   dplyr::count() %>%
   dplyr::ungroup()
@@ -106,7 +101,7 @@ labelFormat2 <- function(
       numeric = (function(cuts) {
         paste0(prefix, formatNum(cuts), suffix)
       })(...), # nolint
-      bin = (function(cuts) {
+      bin = (function(cuts) {w
         n <- length(cuts)
         paste0(prefix, formatNum(cuts[-n]), between, formatNum(cuts[-1]), suffix)
       })(...), # nolint

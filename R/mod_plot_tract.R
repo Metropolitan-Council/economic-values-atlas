@@ -27,7 +27,7 @@ mod_plot_tract_server <- function(input, output, session,
   
   #we need to make this data for a bar plot, or something like that
   make_plot_data2 <- reactive({
-    p <- eva.app::eva_data_main %>% 
+    p <- eva_data_main %>% 
       filter(name %in% map_selections$allInputs$value)
     return(p)
   })
@@ -91,7 +91,7 @@ mod_plot_tract_server <- function(input, output, session,
   #   mutate(dsource = "Selected tract") %>%
   #   select(name, ZSCORE, RAW, dsource)
   # 
-  # test2 <-  eva.app::eva_data_main %>%
+  # test2 <-  eva_data_main %>%
   #   ungroup() %>%
   #   group_by(name) %>%
   #   summarise(ZSCORE = mean(opportunity_zscore, na.rm = T),
