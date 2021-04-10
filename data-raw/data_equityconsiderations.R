@@ -41,6 +41,7 @@ eva_data_raw <- equity %>%
          luse_comm,
          luse_indus,
          luse_undev) %>%
+  rowwise() %>%
   mutate(luse_commind = sum(luse_comm, luse_indus, na.rm=T),
          pnonwhite = 1 - pwhitenh) %>%
   select(-luse_comm, -luse_indus,

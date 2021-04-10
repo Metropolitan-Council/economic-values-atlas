@@ -10,7 +10,7 @@
 mod_map_overview_ui <- function(id){
   ns <- NS(id)
   tagList(
-    
+    HTML("<p>Select variables of interest at the left and update map to view results. Green values correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of our entire region. Click on any tract to get more information.</p>"),
     leafletOutput(ns("map"), height = 700)#,
     
     # wellPanel(textOutput(ns("selected_tract")))
@@ -32,7 +32,7 @@ mod_map_overview_server <- function(input, output, session,
       setView(
         lat = 44.963,
         lng = -93.22,
-        zoom = 9
+        zoom = 10
       ) %>%
       addMapPane(name = "Stamen Toner", zIndex = 430) %>%
       addProviderTiles("Stamen.TonerLines",

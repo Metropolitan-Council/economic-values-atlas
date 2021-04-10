@@ -112,11 +112,13 @@ mod_plot_tract_server <- function(input, output, session,
     ggplot() + 
       # geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals()) +
       geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals(),
-               position = position_dodge(width = 0),
+               position = position_dodge(width = .2),
                size = 4) +
       scale_color_manual(values = c("#0054A4", "#78A22F"), name = "Legend:") +
       labs(y = "", x = "Scaled and standardized value (z-score)\n(high z-score = large opportunity") +
     council_theme() +
+      theme(axis.text.y = element_text(size = 15))+
+      scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 30)) +
       xlim(min(map_util$map_data2$MEAN, na.rm = T), max(map_util$map_data2$MEAN, na.rm = T)) +
       # xlim(min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
     theme(legend.position = "top")
