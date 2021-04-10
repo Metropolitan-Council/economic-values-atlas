@@ -23,11 +23,20 @@ mod_map_overview_ui <- function(id){
 #' @noRd 
 mod_map_overview_server <- function(input, output, session,
                                     map_selections,
-                                    map_util){
+                                    map_util#,
+                                    # current_tab
+                                    ){
   ns <- session$ns
   
-  # base leaflet -------------
-  output$map <-renderLeaflet({ #  map --------
+  # base leaflet isn't working
+  
+  # output$map <- mod_map_base_server(
+  #   input = input,
+  #   output = output,
+  #   session = session
+  # )
+  
+  output$map <- renderLeaflet({ #  map --------
     leaflet() %>%
       setView(
         lat = st_coordinates(map_centroid)[2], #44.963,
@@ -53,38 +62,6 @@ mod_map_overview_server <- function(input, output, session,
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"
       ) %>%
-      
-      
-      # addMapPane("trans", zIndex = 430) %>%
-      # addCircles(
-      #   data = trans_stops,
-      #   group = "Transit",
-      #   radius = 20,
-      #   fill = T,
-      #   stroke = TRUE,
-      #   weight = 2, 
-      #   color = councilR::colors$transitRed,
-      #   fillColor = councilR::colors$transitRed,
-      #   options = pathOptions(pane = "trans")
-      # ) %>%
-      # 
-      # addMapPane("tractoutline", zIndex = 699) %>%
-      # addPolygons( #just need to add the tract outline
-      #   data = eva_tract_geometry,
-      #   stroke = T, weight = .2,
-      #   fillColor = "black", 
-      #   fillOpacity = 0,
-      #   color = councilR::colors$suppGray,
-      #   popup = ~paste0("Tract ID: ", eva_tract_geometry$GEOID), #eva_tract_geometry
-      #   highlightOptions = highlightOptions(
-      #     stroke = TRUE,
-      #     color = "black",
-      #     weight = 6,
-      #     bringToFront = TRUE
-      #   ),
-      #   options = pathOptions(pane = "tractoutline"),
-      #   layerId = ~GEOID) %>%
-      # 
       addLayersControl(
         position = "bottomright",
         # overlayGroups = c(),
@@ -165,6 +142,34 @@ mod_map_overview_server <- function(input, output, session,
                    
                  }
                })
+  
+  
+  # #### startup
+  # observeEvent(
+  #   once = TRUE,
+  #   ignoreInit = TRUE,
+  #   label = "startup",
+  #   # current_tab,
+  #   {print("Rendering start-up map")
+  #     leafletProxy("map") %>%
+  #       addPolygons(
+  #         data = eva_data_main %>%
+  #           group_by(tract_string) %>%
+  #           summarise(MEAN = mean(opportunity_zscore, na.rm = T)) %>%
+  #           left_join(eva_tract_geometry, by = c("tract_string" = "GEOID")) %>%
+  #           st_as_sf() %>%
+  #           st_transform(4326) %>%
+  #           mutate(RANK = min_rank(desc(MEAN))),
+  #         group = "zscores",
+  #         stroke = TRUE,
+  #         color = councilR::colors$suppGray,
+  #         opacity = 0.9,
+  #         weight = 0.25,
+  #         fillOpacity = 0.7,
+  #         smoothFactor = 0.2
+  #       )
+      # })
+
   
 
   #leaflet print geoid -----------

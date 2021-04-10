@@ -17,8 +17,8 @@ mod_map_selections_ui <- function(id){
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"), 
-                              multiple = T),
-                              # selected = filter(eva_vars, type == "people")$name),
+                              multiple = T,
+                              selected = filter(eva_vars, type == "people")$name),
     hr(),
     shinyWidgets::pickerInput(ns("placeInput"),
                               label = shiny::HTML("<h3>Infrastructure & Place</h3>", "<p style='font-size:16px'>Some description about this group of variables.</p>"), 
@@ -26,8 +26,8 @@ mod_map_selections_ui <- function(id){
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"), 
-                              multiple = T),
-                              # selected = filter(eva_vars, type == "place")$name),
+                              multiple = T,
+                              selected = filter(eva_vars, type == "place")$name),
     
     hr(),
     shinyWidgets::pickerInput(ns("businessInput"),
@@ -36,8 +36,8 @@ mod_map_selections_ui <- function(id){
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"),
-                              multiple = T),
-                              # selected = filter(eva_vars, type == "business")$name),
+                              multiple = T,
+                              selected = filter(eva_vars, type == "business")$name),
     
     hr(),
     actionButton(ns("goButton"), "Update map", class = "btn-success"),
@@ -81,7 +81,7 @@ mod_map_selections_server <- function(input, output, session){
     input_values$allInputs <- as_tibble(input$peopleInput) %>%
       rbind(as_tibble(input$placeInput)) %>%
       rbind(as_tibble(input$businessInput)) 
-  })
+  }, ignoreNULL = FALSE)
   
   
   # observeEvent(input$peopleInput, { # only update when the user changes the eva input
