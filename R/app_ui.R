@@ -40,15 +40,13 @@ app_ui <- function(request) {
                                   fluidRow(mod_map_overview_ui("map_overview_ui_1"))),
                         hr(), br(), br(),
                         h1("Tract-specific information"), br(),
-                        HTML("<p>Click on a specific tract in the map above in order to view more detailed information here.</p> <br>
-                             <p>Portland does something similar to this...I think there is a better way to go about this. Can we do more storytelling? (e.g. opportunity zones in one aspect don't necessarily map onto opportunity zones in other aspects (here are hotspots for people, hotspots for place, hotspots for business) --> here is an example of how some targeted business investment was super successful and also changed the economic trajectory of an area --> here are the overall hotspots, go forth and be successful)</p> <br>
-                             <p> Should we allow users to filter by city? If so, can we simply rank tracts by opportunity?</p><br>
-                             <p>Does 'opportunity' as I've defined it resonate with who we hope might find an EVA useful? Could zoning be a limtation superceeding any other factor? What else is missing (besides of course careful thought into the input variables, and some thought about weighting variables)?</p>"), br(),
-                        fluidRow(column(width = 6,
+                        HTML("<p>Click on a specific tract in the map above in order to view how it compares to the average tract.</p>"), br(),
+                        fluidRow(column(width = 12,
                                         mod_plot_tract_ui("plot_tract_ui_1")
                                         # mod_evabar_ui("evabar_ui_1")
-                                        ),
-                                 column(width = 6,
+                                        )),
+                        fluidRow(
+                                 column(width = 12,
                                         mod_table_ui("table_ui_1")
                                         ))
     
