@@ -11,7 +11,7 @@ mod_plot_tract_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    plotOutput(ns("bargraph"), height = 700)
+    plotOutput(ns("bargraph"), height = 900)
     
   )
 }
@@ -87,11 +87,15 @@ mod_plot_tract_server <- function(input, output, session,
       geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals(),
                position = position_dodge(width = .2),
                size = 4) +
-      scale_color_manual(values = c("#0054A4", "#78A22F"), name = "Legend:") +
-      labs(y = "", x = "Scaled and standardized value (z-score)\n(high z-score = large opportunity") +
+      scale_color_manual(values = c("#636363", ##0054A4", 
+                                    "#78A22F"), name = "Legend:") +
+      labs(y = "", x = "Scaled and standardized value (z-score)\n(high z-score = large opportunity)") +
+      ggtitle(paste0("Summary for tract ", tract_selections$selected_tract)) +
     council_theme() +
-      theme(axis.text.y = element_text(size = 15))+
-      scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 30)) +
+      theme(axis.text.y = element_text(size = 15),
+            axis.text.x = element_text(size = 15),
+            legend.text = element_text(size = 15))+
+      # scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 60)) +
       xlim(min(map_util$map_data2$MEAN, na.rm = T), max(map_util$map_data2$MEAN, na.rm = T)) +
       # xlim(min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
     theme(legend.position = "top")

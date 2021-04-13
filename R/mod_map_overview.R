@@ -62,6 +62,9 @@ mod_map_overview_server <- function(input, output, session,
           "Stamen Toner",
           "Aerial Imagery"
         ),
+        overlayGroups = c(
+          "Z-scores"
+        ),
         options = layersControlOptions(collapsed = T)
       ) %>%
       hideGroup(c("Transit")) 
@@ -99,13 +102,20 @@ mod_map_overview_server <- function(input, output, session,
                      addMapPane("zscore", zIndex = 400) %>%
                      addPolygons(
                        data = map_util$map_data2 %>% st_transform(4326),
-                       group = "zscores",
+                       group = "Z-scores",
                        stroke = TRUE,
-                       color = councilR::colors$suppGray,
+                       color =  councilR::colors$suppGray,
                        opacity = 0.9,
-                       weight = 0.25,
+                       weight = 0.5, #0.25,
                        fillOpacity = 0.7,
                        smoothFactor = 0.2,
+                       highlightOptions = highlightOptions(
+                         stroke = TRUE,
+                         color = "white",
+                         weight = 6,
+                         bringToFront = TRUE,
+                         opacity = 1
+                       ),
                        fillColor = ~ colorNumeric(
                          n = 5,
                          palette = "magma",
@@ -117,13 +127,14 @@ mod_map_overview_server <- function(input, output, session,
                        options = pathOptions(pane = "zscore"),
                        layerId = ~tract_string
                      ) %>%
+                     # maybe want to add this: https://stackoverflow.com/questions/42245302/shiny-leaflet-highlight-polygon
                      
                      addLegend(
                        labFormat = labelFormat2(),#labelFormat(prefix = "(", suffix = ")", digits = 5),
                        title = "Average z-scores",
                        position = "bottomleft",
-                       group = "zscores",
-                       layerId = "zscores",
+                       group = "Z-scores",
+                       layerId = "Z-scores",
                        pal = colorNumeric(
                          n = 5,
                          palette = "magma",

@@ -12,7 +12,7 @@ mod_map_selections_ui <- function(id){
   tagList(
     
     shinyWidgets::pickerInput(ns("peopleInput"),
-                              label = shiny::HTML(paste0("<h3>Equity & People</h3>", "<p style='font-size:16px'>Some description about this group of variables.</p>")), 
+                              label = shiny::HTML(paste0("<h3>Equity & People</h3>")), 
                               choices = filter(eva_vars, type == "people")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
@@ -21,7 +21,7 @@ mod_map_selections_ui <- function(id){
                               selected = filter(eva_vars, type == "people")$name),
     hr(),
     shinyWidgets::pickerInput(ns("placeInput"),
-                              label = shiny::HTML("<h3>Infrastructure & Place</h3>", "<p style='font-size:16px'>Some description about this group of variables.</p>"), 
+                              label = shiny::HTML("<h3>Infrastructure & Place</h3>"), 
                               choices=filter(eva_vars, type == "place")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
@@ -31,7 +31,7 @@ mod_map_selections_ui <- function(id){
     
     hr(),
     shinyWidgets::pickerInput(ns("businessInput"),
-                              label = shiny::HTML("<h3>Resilience & Business</h3>", "<p style='font-size:16px'>Some description about this group of variables.</p>"), 
+                              label = shiny::HTML("<h3>Resilience & Business</h3>"), 
                               choices=filter(eva_vars, type == "business")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
