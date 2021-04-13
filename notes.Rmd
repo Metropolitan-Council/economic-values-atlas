@@ -11,10 +11,12 @@ params:
 \br
 \br
 \br
+\br
 
 
 ## Notes
 
-The raw data for this project originates from XXX. For this project, the raw data was scaled and standardized into z-scores (where z-score = (raw value - mean value)/ standard deviation)). 
+The raw data for this project originates from XXX. For this project, the raw data was scaled and standardized into z-scores (where z-score = (raw value - mean value)/ standard deviation). 
 
+<br>
 More information....

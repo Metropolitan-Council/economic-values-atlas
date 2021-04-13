@@ -52,12 +52,14 @@ app_ui <- function(request) {
     
     ),
     
-    navbarMenu("Notes",
-               tabPanel("Data Sources", HTML("<br><br><br>"), mod_notes_ui("notes_ui_1")),
-               "----",
-               "Future steps",
-               tabPanel("Example", HTML("<br><br><br>A place holder to show how we might want to add information.")),
-               tabPanel("Example2", HTML("<br><br><br>And more info could be added in a fashion similar to this."))
+  tabPanel("Notes",
+           mod_notes_ui("notes_ui_1")
+    # navbarMenu("Notes",
+               # tabPanel("Data Sources", HTML("<br><br><br>"), mod_notes_ui("notes_ui_1")),
+               # "----",
+               # "Future steps",
+               # tabPanel("Example", HTML("<br><br><br>A place holder to show how we might want to add information.")),
+               # tabPanel("Example2", HTML("<br><br><br>And more info could be added in a fashion similar to this."))
     )
     
     ))

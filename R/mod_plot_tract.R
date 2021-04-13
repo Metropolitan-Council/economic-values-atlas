@@ -78,8 +78,8 @@ mod_plot_tract_server <- function(input, output, session,
     if(identical(tract_selections$selected_tract, character(0))) {
       print("nodata")
       ggplot() +
-        theme_void() +
-        annotate("text", x =0, y=0, label = "Click on a tract to view the values ")
+        theme_void()# +
+        # annotate("text", x =0, y=0, label = "Click on a tract to view the values ")
       } else {
       print("making graph")
     ggplot() + 
