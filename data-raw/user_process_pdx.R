@@ -32,6 +32,7 @@ select(-statename, -countyname, -tract) %>% #remove any extraneous columns
          SD = sd(raw_value, na.rm = T),
          MIN = min(raw_value, na.rm = T),
          MAX = max(raw_value, na.rm = T),
+         COUNT = sum(!is.na(raw_value)),
          z_score = (raw_value - MEAN)/SD) %>%
 
   #we want high opportunity to be a high value, so this reorders those values if needed
@@ -40,14 +41,14 @@ select(-statename, -countyname, -tract) %>% #remove any extraneous columns
     else if (interpret_high_value == "low_opportunity")
       (z_score * (-1))) %>%
   
-  #need to create nominal weights
+  #create nominal weights
   mutate(weights_nominal = if(interpret_high_value == "high_opportunity") {
     (raw_value - MIN) / (MAX - MIN) * 10
   } else if(interpret_high_value == "low_opportunity") {
     (10 - raw_value - MIN) / (MAX - MIN) * 10
   }) %>%
   
-  #need help from brookings; what is this variable???
+  #need help from brookings; how to recreate the weights-stdscr variable???
   mutate(weights_scaled = if(interpret_high_value == "high_opportunity") {
     (10 - pnorm(z_score)*10)
     } else if (interpret_high_value == "low_opportunity") {
@@ -55,7 +56,7 @@ select(-statename, -countyname, -tract) %>% #remove any extraneous columns
       }) %>%
   
   #need help from brookigs here too; what is this?
-  # mutate(weights_rank = )
+  # mutate(weights_rank = min_rank(desc(weights_nominal)) / COUNT * 10) %>%
   
   #clean
   select(-MEAN, -SD, -MIN, -MAX) %>%
