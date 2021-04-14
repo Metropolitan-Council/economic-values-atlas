@@ -50,7 +50,7 @@ select(-statename, -countyname, -tract) %>% #remove any extraneous columns
                                      interpret_high_value == "low_opportunity" ~ (10 - pnorm(z_score) * 10),
                                      TRUE ~ NA_real_)) %>%
   
-  #need help from brookigs here too; what is this?
+  #weights rank
   mutate(weights_rank = case_when(interpret_high_value == "high_opportunity" ~ min_rank((weights_nominal)) / COUNT * 10,
                                     interpret_high_value == "low_opportunity" ~ min_rank(desc(weights_nominal)) / COUNT * 10,
                                     TRUE ~ NA_real_)) %>%
