@@ -35,10 +35,10 @@ select(-statename, -countyname, -tract) %>% #remove any extraneous columns
          COUNT = as.numeric(sum(!is.na(raw_value))),
          z_score = (raw_value - MEAN)/SD) %>%
 
-  #we want high opportunity to be a high value, so this reorders those values if needed
-  mutate(opportunity_zscore = case_when(interpret_high_value == "high_opportunity" ~ z_score,
-                                        interpret_high_value == "low_opportunity" ~ z_score * (-1),
-                                          TRUE ~ NA_real_)) %>%
+  # #we want high opportunity to be a high value, so this reorders those values if needed
+  # mutate(opportunity_zscore = case_when(interpret_high_value == "high_opportunity" ~ z_score,
+  #                                       interpret_high_value == "low_opportunity" ~ z_score * (-1),
+  #                                         TRUE ~ NA_real_)) %>%
   
   #create nominal weights
   mutate(weights_nominal = case_when(interpret_high_value == "high_opportunity" ~ (raw_value - MIN) / (MAX - MIN) * 10,
