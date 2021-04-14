@@ -40,9 +40,10 @@ app_ui <- function(request) {
                                   fluidRow(mod_map_overview_ui("map_overview_ui_1"))),
                         hr(), br(), br(),
                         h1("Tract-specific information"), br(),
-                        HTML("<p>Click on a specific tract in the map above in order to view how it compares to the average tract.</p>"), br(),
+                        HTML("<p>Click on a specific tract in the map above in order to view how it compares to the average tract. The plot shows the standardized and scaled scores. The following table shows raw values (units vary across variables).</p>"), br(),
                         fluidRow(column(width = 12,
-                                        mod_plot_tract_ui("plot_tract_ui_1")
+                                        mod_plot_tract_ui("plot_tract_ui_1"),
+                                        hr()
                                         # mod_evabar_ui("evabar_ui_1")
                                         )),
                         fluidRow(

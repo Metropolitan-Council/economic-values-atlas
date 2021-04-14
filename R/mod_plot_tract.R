@@ -38,15 +38,16 @@ mod_plot_tract_server <- function(input, output, session,
     selected_tract <- map_util$plot_data2 %>%
       ungroup() %>%
       filter(tract_string == tract_selections$selected_tract) %>%
-      rename(ZSCORE = z_score,
+      rename(SCALED_WTS = weights_scaled,
              RAW = raw_value) %>%
       mutate(dsource = "Selected tract") %>%
-      select(name, ZSCORE, RAW, dsource) 
+      select(name, SCALED_WTS, RAW, dsource) 
     
     tract_avgs <- map_util$plot_data2 %>%
+      # eva_data_main %>%
       ungroup() %>%
       group_by(name) %>% 
-      summarise(ZSCORE = mean(opportunity_zscore, na.rm = T),
+      summarise(SCALED_WTS = mean(weights_scaled, na.rm = T),
                 RAW = mean(raw_value, na.rm = T)) %>%
       mutate(dsource = "All tracts \n(average)")
     
@@ -56,22 +57,7 @@ mod_plot_tract_server <- function(input, output, session,
     return(toplot)
   })
   
-  # test1 <- eva_data_main %>% ungroup() %>%
-  #   filter(tract_string == "27139081100") %>%
-  #   rename(ZSCORE = z_score,
-  #          RAW = raw_value) %>%
-  #   mutate(dsource = "Selected tract") %>%
-  #   select(name, ZSCORE, RAW, dsource)
-  # 
-  # test2 <-  eva_data_main %>%
-  #   ungroup() %>%
-  #   group_by(name) %>%
-  #   summarise(ZSCORE = mean(opportunity_zscore, na.rm = T),
-  #             RAW = mean(raw_value, na.rm = T)) %>%
-  #   mutate(dsource = "All tracts \n(average)")
-  # 
-  # test3 <- bind_rows(test1, test2) #%>%
-  #   gather(key = "key", value = "value", -name, -dsource)
+
   
   output$bargraph <- renderPlot(#height = function() PlotHeight(), 
     {
@@ -84,20 +70,20 @@ mod_plot_tract_server <- function(input, output, session,
       print("making graph")
     ggplot() + 
       # geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals()) +
-      geom_point(aes(x = ZSCORE, y = name, col = dsource), data = make_plot_vals(),
+      geom_point(aes(x = SCALED_WTS, y = name, col = dsource), data = make_plot_vals(),
                position = position_dodge(width = .2),
                size = 4) +
       scale_color_manual(values = c("#636363", ##0054A4", 
                                     "#78A22F"), name = "Legend:") +
-      labs(y = "", x = "Scaled and standardized value (z-score)\n(high z-score = large opportunity)") +
+      labs(y = "", x = "Score\n(high score = large opportunity)") +
       ggtitle(paste0("Summary for tract ", tract_selections$selected_tract)) +
     council_theme() +
       theme(axis.text.y = element_text(size = 15),
             axis.text.x = element_text(size = 15),
             legend.text = element_text(size = 15))+
       # scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 60)) +
-      xlim(min(map_util$map_data2$MEAN, na.rm = T), max(map_util$map_data2$MEAN, na.rm = T)) +
-      # xlim(min(eva_data_main$opportunity_zscore, na.rm = T), max(eva_data_main$opportunity_zscore, na.rm = T)) +
+      xlim(0, 10) +
+      # xlim(min(map_util$map_data2$MEAN, na.rm = T), max(map_util$map_data2$MEAN, na.rm = T)) +
     theme(legend.position = "top")
     } 
   })

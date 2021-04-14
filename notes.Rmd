@@ -36,7 +36,7 @@ Where "lower is better": $weights \, nominal = 10 - \frac{x - minimum\,value}{ma
 
 
 ### Weights standard score
-The weights standard score normally distributes the z score of x on a 0-10 scale. It is calculated according to:
+The weights standard score normally distributes the z score of x on a 0-10 scale. **This is the primary variable mapped in this tool.** It is calculated according to:
 
 Where "higher is better": $weights \, standard\, score = (normal\, distribution\, of\, z\, score)\times 10\\$
 

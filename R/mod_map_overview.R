@@ -63,7 +63,7 @@ mod_map_overview_server <- function(input, output, session,
           "Aerial Imagery"
         ),
         overlayGroups = c(
-          "Z-scores"
+          "Scores"
         ),
         options = layersControlOptions(collapsed = T)
       ) %>%
@@ -98,11 +98,11 @@ mod_map_overview_server <- function(input, output, session,
                  } else {
                    print("rendering polygons")
                    leafletProxy("map") %>%
-                     clearGroup("zscore") %>%
-                     addMapPane("zscore", zIndex = 400) %>%
+                     clearGroup("score") %>%
+                     addMapPane("score", zIndex = 400) %>%
                      addPolygons(
                        data = map_util$map_data2 %>% st_transform(4326),
-                       group = "Z-scores",
+                       group = "Scores",
                        stroke = TRUE,
                        color =  councilR::colors$suppGray,
                        opacity = 0.9,
@@ -122,19 +122,19 @@ mod_map_overview_server <- function(input, output, session,
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
                        )(map_util$map_data2 %>% select("MEAN") %>% .[[1]]),
                        popup = ~paste0("Tract ID: ", map_util$map_data2$tract_string, 
-                                       "<br>Average z-score: ", round(map_util$map_data2$MEAN, 3),
-                                       "<br>Rank of z-score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
-                       options = pathOptions(pane = "zscore"),
+                                       "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
+                                       "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
+                       options = pathOptions(pane = "score"),
                        layerId = ~tract_string
                      ) %>%
                      # maybe want to add this: https://stackoverflow.com/questions/42245302/shiny-leaflet-highlight-polygon
                      
                      addLegend(
                        labFormat = labelFormat2(),#labelFormat(prefix = "(", suffix = ")", digits = 5),
-                       title = "Average z-scores",
+                       title = "Average scores",
                        position = "bottomleft",
-                       group = "Z-scores",
-                       layerId = "Z-scores",
+                       group = "Scores",
+                       layerId = "Scores",
                        pal = colorNumeric(
                          n = 5,
                          palette = "magma",

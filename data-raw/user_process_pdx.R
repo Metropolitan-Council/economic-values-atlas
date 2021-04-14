@@ -55,8 +55,12 @@ select(-statename, -countyname, -tract) %>% #remove any extraneous columns
                                     interpret_high_value == "low_opportunity" ~ min_rank(desc(weights_nominal)) / COUNT * 10,
                                     TRUE ~ NA_real_)) %>%
   
+  # #rank
+  mutate(overall_rank = case_when(interpret_high_value == "high_opportunity" ~ min_rank(as.numeric(weights_nominal)),
+                                  interpret_high_value == "low_opportunity" ~ min_rank(desc(as.numeric(weights_nominal))))) %>%
+  # 
   #clean
   select(-MEAN, -SD, -MIN, -MAX) %>%
   right_join(eva_vars, by = c("variable", "name", "type", "interpret_high_value")) 
 
-data.frame(head(eva_data_main))
+# data.frame(head(eva_data_main))
