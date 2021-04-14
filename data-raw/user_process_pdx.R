@@ -26,44 +26,37 @@ eva_data_main <- read_xlsx("./data-raw/Portland CommunityMaster.xlsx", #place ex
 ) %>%
 select(-statename, -countyname, -tract) %>% #remove any extraneous columns
   gather("variable", "raw_value", -tract_string) %>%
-  right_join(eva_vars) %>%
+  right_join(eva_vars, by = "variable") %>%
   group_by(variable) %>%
   mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
          MIN = min(raw_value, na.rm = T),
          MAX = max(raw_value, na.rm = T),
-         COUNT = sum(!is.na(raw_value)),
+         COUNT = as.numeric(sum(!is.na(raw_value))),
          z_score = (raw_value - MEAN)/SD) %>%
 
   #we want high opportunity to be a high value, so this reorders those values if needed
-  mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
-    (z_score)
-    else if (interpret_high_value == "low_opportunity")
-      (z_score * (-1))) %>%
+  mutate(opportunity_zscore = case_when(interpret_high_value == "high_opportunity" ~ z_score,
+                                        interpret_high_value == "low_opportunity" ~ z_score * (-1),
+                                          TRUE ~ NA_real_)) %>%
   
   #create nominal weights
-  mutate(weights_nominal = if(interpret_high_value == "high_opportunity") {
-    (raw_value - MIN) / (MAX - MIN) * 10
-  } else if(interpret_high_value == "low_opportunity") {
-    (10 - raw_value - MIN) / (MAX - MIN) * 10
-  }) %>%
+  mutate(weights_nominal = case_when(interpret_high_value == "high_opportunity" ~ (raw_value - MIN) / (MAX - MIN) * 10,
+                                        interpret_high_value == "low_opportunity" ~ 10 - (raw_value - MIN) / (MAX - MIN) * 10,
+                                        TRUE ~ NA_real_)) %>%
   
-  #need help from brookings; how to recreate the weights-stdscr variable???
-  mutate(weights_scaled = if(interpret_high_value == "high_opportunity") {
-    (10 - pnorm(z_score)*10)
-    } else if (interpret_high_value == "low_opportunity") {
-      (pnorm(z_score)*10)
-      }) %>%
+  #Weights Standard Score
+  mutate(weights_scaled = case_when(interpret_high_value == "high_opportunity" ~ pnorm(z_score) * 10,
+                                     interpret_high_value == "low_opportunity" ~ (10 - pnorm(z_score) * 10),
+                                     TRUE ~ NA_real_)) %>%
   
   #need help from brookigs here too; what is this?
-  # mutate(weights_rank = min_rank(desc(weights_nominal)) / COUNT * 10) %>%
+  mutate(weights_rank = case_when(interpret_high_value == "high_opportunity" ~ min_rank((weights_nominal)) / COUNT * 10,
+                                    interpret_high_value == "low_opportunity" ~ min_rank(desc(weights_nominal)) / COUNT * 10,
+                                    TRUE ~ NA_real_)) %>%
   
   #clean
   select(-MEAN, -SD, -MIN, -MAX) %>%
-  right_join(eva_vars) %>%
-  #we want high opportunity to be a high value, so this reorders those values if needed
-  mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
-    (z_score)
-    else if (interpret_high_value == "low_opportunity")
-      (z_score * (-1))) 
+  right_join(eva_vars, by = c("variable", "name", "type", "interpret_high_value")) 
+
 data.frame(head(eva_data_main))
