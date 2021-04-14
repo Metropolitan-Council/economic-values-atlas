@@ -24,8 +24,8 @@ rmarkdown::render("intro.Rmd",
 )
 
 rmarkdown::render("notes.Rmd",
-                  output_format = "github_document", # -----
-                  output_file = "notes.md", output_dir = "inst/app/www",
+                  output_format = "pdf_document", # -----
+                  output_file = "notes.pdf", output_dir = "inst/app/www",
                   params = list(
                     actor_id = "esch",
                     data_date = Sys.Date(),

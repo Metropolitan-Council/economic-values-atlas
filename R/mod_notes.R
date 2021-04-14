@@ -10,9 +10,11 @@
 mod_notes_ui <- function(id){
   ns <- NS(id)
   tagList(
-    shiny::div(
-      id = "notes",
-      includeMarkdown(system.file("app/www/notes.md", package = "eva.app"))
+    tags$iframe(style="height:600px; width:100%", src="www/notes.pdf"
+    # div(style="display: inline-block;", embed(src="www/notes.pdf", height="100%")
+    # shiny::div(
+    #   id = "notes",
+    #   includeMarkdown(system.file("app/www/notes.pdf", package = "eva.app"))
     )
   )
 }
