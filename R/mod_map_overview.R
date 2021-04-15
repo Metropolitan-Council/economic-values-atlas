@@ -130,7 +130,7 @@ mod_map_overview_server <- function(input, output, session,
                      # maybe want to add this: https://stackoverflow.com/questions/42245302/shiny-leaflet-highlight-polygon
                      
                      addLegend(
-                       labFormat = labelFormat2(),#labelFormat(prefix = "(", suffix = ")", digits = 5),
+                       # labFormat = labelFormat2(),#labelFormat(prefix = "(", suffix = ")", digits = 5),
                        title = "Average scores",
                        position = "bottomleft",
                        group = "Scores",
