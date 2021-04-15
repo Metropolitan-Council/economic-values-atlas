@@ -44,7 +44,7 @@ mod_table_server <- function(input, output, session,
       summarise(`Average tract`= round(mean(raw_value, na.rm = T), 1)) %>%
       mutate_if(is.numeric, format, big.mark = ",") 
     
-    fulltable <- full_join(avg_tracts, selected_tract) %>%
+    fulltable <- full_join(avg_tracts, selected_tract, by = "name") %>%
       rename(`Variable name` = name)
     
     return(fulltable)
