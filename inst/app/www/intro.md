@@ -4,37 +4,52 @@
 Brookings Institution pioneered an Economic Values Atlas in 2019 for the
 Portland Metro region
 (<a href="https://www.brookings.edu/research/announcing-the-economic-value-atlas-a-new-approach-to-regional-transportation-and-land-use-planning/" target="_blank">Tomer
-et al.</a>). Please scroll down to start using this tool. We suggest you
-use a desktop web browser for the best experience.
+et al.</a>). This is an implementation of the concept for our region.
+Please scroll down to start using this tool. We suggest you use a
+desktop web browser for the best experience.
 
 <br>
 
 ## What this tool does
 
-The Economic Value Atlas is a tool to help policymakers focus
-investments in ways that will create access to family-wage jobs and
-support growing industries.
+This interactive tool explores the economic values of our region. The
+economic values are specific to our region and are shaped by our 30-year
+regional plan. We seek to promote sustainable infrastructure
+development, a resilient economy, and shared prosperity throughout our
+region.
 
-<br> The tool will help verify and improve our understanding of the
-economy by providing an interactive, visual display of variables that
-tie back to a set of desired economic outcomes. It will also help
-provide a more transparent public discussion about economic conditions
-among the communities in the region and how we can build an inclusive
-economy and expand access to opportunity.
+<br> We have synthesized existing and complex data sources to produce
+accessible conclusions. This tool allows users to find “opportunity
+zones” where economic investments jointly: a) have the potential for
+disproportionately positive impacts for the future prosperity of our
+entire region, and b) are poised for success with favorable
+infrastructure and accessibility to underutilized workforces.
 
-<br>
+<center>
+<img src='www/eva_schematic.png' max-width='200px' alt='EVA schematic'/img>
+</center>
 
 ## Why we built the tool
 
-Our dedication to creating a great quality of life has brought an influx
-of new residents and rapid job growth, creating challenges for the
-region’s livability, including wage disparities, fewer affordable
-housing options and longer travel times.
+This project is motivated by the fact that our region shares a common
+goal for economic development (as outlined in Thrive 2040 and
+predecessors), and yet divergent outcomes for economic prosperity exist
+across our region. Developing and leveraging this Economic Values Atlas
+with a shared language for economic development is one proposed
+intervention. EVA can bring an objective lens to project evaluation and
+decision-making processes that guide regional economic investments,
+re-investments, and development.
 
-<br> The tool will help to share resources and information at a scale
-that crosses city and county lines, which will help our region build and
-leverage distinct competitive advantages for communities and industries.
-This tool helps us better understand where businesses are growing, what
-they need, how people get there and how products get to market.
+<br> The need for an Economic Values Atlas was underscored by events
+transpiring during the year 2020. The onset of the COVID-19 pandemic
+disrupted and destabilized local and global economies. The prevalence of
+police brutality, racism, and systemic inequities impacting communities
+of color was more widely recognized. These events punctuate the need for
+more granular and holistic measures of economic prosperity and
+opportunity. Building a jointly prosperous, resilient, and equitable
+economic future for our region necessitates new thinking.
 
+<center>
+<img src='www/trajectory.png' width='700px' alt='Trajectory for economic recovery'/img>
+</center>
 <hr>

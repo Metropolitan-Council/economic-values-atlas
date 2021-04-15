@@ -100,14 +100,40 @@ eva_data_main <- eva_data_raw %>%
   group_by(variable) %>%
   mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
+         MIN = min(raw_value, na.rm = T),
+         MAX = max(raw_value, na.rm = T),
+         COUNT = as.numeric(sum(!is.na(raw_value))),
          z_score = (raw_value - MEAN)/SD) %>%
-  select(-MEAN, -SD) %>%
-  left_join(eva_data_codes) %>%
-  #we want high opportunity to be a high value, so this reorders those values if needed
-  mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity")
-    (z_score)
-    else if (interpret_high_value == "low_opportunity")
-      (z_score * (-1))) 
+  
+  left_join(eva_data_codes, by = 'variable') %>%
+  
+  # #we want high opportunity to be a high value, so this reorders those values if needed
+  # mutate(opportunity_zscore = case_when(interpret_high_value == "high_opportunity" ~ z_score,
+  #                                       interpret_high_value == "low_opportunity" ~ z_score * (-1),
+  #                                         TRUE ~ NA_real_)) %>%
+  
+  #create nominal weights
+  mutate(weights_nominal = case_when(interpret_high_value == "high_opportunity" ~ (raw_value - MIN) / (MAX - MIN) * 10,
+                                     interpret_high_value == "low_opportunity" ~ 10 - (raw_value - MIN) / (MAX - MIN) * 10,
+                                     TRUE ~ NA_real_)) %>%
+  
+  #Weights Standard Score
+  mutate(weights_scaled = case_when(interpret_high_value == "high_opportunity" ~ pnorm(z_score) * 10,
+                                    interpret_high_value == "low_opportunity" ~ (10 - pnorm(z_score) * 10),
+                                    TRUE ~ NA_real_)) %>%
+  
+  #weights rank
+  mutate(weights_rank = case_when(interpret_high_value == "high_opportunity" ~ min_rank((weights_nominal)) / COUNT * 10,
+                                  interpret_high_value == "low_opportunity" ~ min_rank(desc(weights_nominal)) / COUNT * 10,
+                                  TRUE ~ NA_real_)) %>%
+  
+  # #rank
+  mutate(overall_rank = case_when(interpret_high_value == "high_opportunity" ~ min_rank(as.numeric(weights_nominal)),
+                                  interpret_high_value == "low_opportunity" ~ min_rank(desc(as.numeric(weights_nominal))))) %>%
+  # 
+  #clean
+  select(-MEAN, -SD, -MIN, -MAX) 
+  
 
 usethis::use_data(eva_data_main, overwrite = TRUE)
 

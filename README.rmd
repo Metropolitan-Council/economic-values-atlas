@@ -36,25 +36,25 @@ To understand what you will be creating, please view [this example for the Twin 
 First, set the following parameters which indicate the state/s and county/ies from which tract data comes from. Right now, this code is set to handle up to 2 states although this can easily be expanded if there is a need. Also set the metro name, and the format of the data inputs. This should be the only section of code that needs editing. 
 
 ```{r user_state, echo=TRUE}
-state_1 <- "OR"
-county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
-
-state_2 <- "WA"
-county_2 <- c("Clark", "Skamania")
-
-metro <- "pdx"
-dataformat <- "excel"
+# state_1 <- "OR"
+# county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
+# 
+# state_2 <- "WA"
+# county_2 <- c("Clark", "Skamania")
+# 
+# metro <- "pdx"
+# dataformat <- "excel"
 
 #####
 
-# state_1 <- "MN"
-# county_1 <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")
-# 
-# state_2 <- NA
-# county_2 <- NA
-# 
-# metro <- "msp"
-# dataformat <- "rscript"
+state_1 <- "MN"
+county_1 <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")
+
+state_2 <- NA
+county_2 <- NA
+
+metro <- "msp"
+dataformat <- "rscript"
 ```
 
 ### Read and process raw data
