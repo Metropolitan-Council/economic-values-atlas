@@ -54,6 +54,29 @@ mod_map_overview_server <- function(input, output, session,
         provider = providers$Esri.WorldImagery,
         group = "Aerial Imagery"
       ) %>%
+      
+      #### regional specific other data layers
+      addMapPane("trans", zIndex = 431) %>%
+      addCircles(
+        # Markers(
+        data = trans_stops,
+        group = "Active transit stops",
+        radius = 20,
+        fill = T,
+        stroke = TRUE,
+        weight = 2,
+        color = "black", #councilR::colors$transitRed,
+        fillColor = "black",# councilR::colors$transitRed,
+        options = pathOptions(pane = "trans")
+      ) %>%
+      # groupOptions(
+      #   group = "Active transit stops",
+      #   zoomLevels = 13:20
+      # ) %>%
+      
+      hideGroup("Active transit stops") %>%
+      
+      ### add layer control
       addLayersControl(
         position = "bottomright",
         # overlayGroups = c(),
@@ -63,7 +86,8 @@ mod_map_overview_server <- function(input, output, session,
           "Aerial Imagery"
         ),
         overlayGroups = c(
-          "Scores"
+          "EVA Scores",
+          "Active transit stops"
         ),
         options = layersControlOptions(collapsed = T)
       ) %>%
