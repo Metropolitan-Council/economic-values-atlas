@@ -1,7 +1,18 @@
 Package: eva.app
 Title: Economic Values Atlas for the Twin Cities
 Version: 0.0.0.9000
-Authors@R: person('Ellen', 'Esch', email = 'ellen.esch@metc.state.mn.us', role = c('cre', 'aut'))
+Authors@R: 
+    c(person(given = "Metropolitan Council",
+             role = "cph"),
+      person(given = "Ellen",
+             family = "Esch",
+             role = c("cre", "aut"),
+             email = "ellen.esch@metc.state.mn.us",
+             comment = c(ORCID = "https://orcid.org/0000-0002-4253-0910")),
+       person(given = "Liz",
+             family = "Roten",
+             role = "aut",
+             email = "liz.roten@metc.state.mn.us"))
 Description: PKG_DESC.
 License: MIT + file LICENSE
 Depends: 
