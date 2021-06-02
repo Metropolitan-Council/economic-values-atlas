@@ -102,10 +102,12 @@ if(metro == "pdx") {
     mutate(tract_string = as.character(tract_string)) %>% #ensure this reads as a character so that we can join with tract geometries 
     gather("variable", "raw_value", -tract_string) %>%
     group_by(variable) %>%
-    mutate(MEAN = mean(raw_value, na.rm = T),
+     mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
-         z_score = (raw_value - MEAN)/SD) %>% #calculate zscore
-    select(-MEAN, -SD) %>%
+         MIN = min(raw_value, na.rm = T),
+         MAX = max(raw_value, na.rm = T),
+         COUNT = as.numeric(sum(!is.na(raw_value))),
+         z_score = (raw_value - MEAN)/SD) %>%
     right_join(eva_vars) %>%
     
     #create nominal weights
