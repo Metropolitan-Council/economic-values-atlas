@@ -30,6 +30,10 @@ app_server <- function( input, output, session ) {
              tract_selections = tract_selections,
              map_util = map_util)
   
+  callModule(mod_download_scores_server, "download_scores_ui_1",
+             tract_selections = tract_selections,
+             map_util = map_util)
+  
   callModule(mod_table_server, "table_ui_1",
              tract_selections = tract_selections,
              map_util = map_util)
