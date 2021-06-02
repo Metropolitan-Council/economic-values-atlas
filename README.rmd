@@ -99,17 +99,37 @@ if(metro == "pdx") {
   eva_data_main <- read_xlsx(paste0("./data-raw/", metro, ".xlsx"),
                               sheet = 1,
                              na = c("NA")) %>% 
+    mutate(tract_string = as.character(tract_string)) %>% #ensure this reads as a character so that we can join with tract geometries 
     gather("variable", "raw_value", -tract_string) %>%
     group_by(variable) %>%
     mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
          z_score = (raw_value - MEAN)/SD) %>% #calculate zscore
     select(-MEAN, -SD) %>%
-    rightt_join(eva_vars) %>%
-  mutate(opportunity_zscore = if (interpret_high_value == "high_opportunity") #reorder zscore if needed
-    (z_score)
-    else if (interpret_high_value == "low_opportunity")
-      (z_score * (-1))) 
+    right_join(eva_vars) %>%
+    
+    #create nominal weights
+  mutate(weights_nominal = case_when(interpret_high_value == "high_opportunity" ~ (raw_value - MIN) / (MAX - MIN) * 10,
+                                     interpret_high_value == "low_opportunity" ~ 10 - (raw_value - MIN) / (MAX - MIN) * 10,
+                                     TRUE ~ NA_real_)) %>%
+  
+  #Weights Standard Score
+  mutate(weights_scaled = case_when(interpret_high_value == "high_opportunity" ~ pnorm(z_score) * 10,
+                                    interpret_high_value == "low_opportunity" ~ (10 - pnorm(z_score) * 10),
+                                    TRUE ~ NA_real_)) %>%
+  
+  #weights rank
+  mutate(weights_rank = case_when(interpret_high_value == "high_opportunity" ~ min_rank((weights_nominal)) / COUNT * 10,
+                                  interpret_high_value == "low_opportunity" ~ min_rank(desc(weights_nominal)) / COUNT * 10,
+                                  TRUE ~ NA_real_)) %>%
+  
+  # #rank
+  mutate(overall_rank = case_when(interpret_high_value == "high_opportunity" ~ min_rank(as.numeric(weights_nominal)),
+                                  interpret_high_value == "low_opportunity" ~ min_rank(desc(as.numeric(weights_nominal))))) %>%
+
+  #clean dataframe
+  select(-MEAN, -SD, -MIN, -MAX)
+  
 } else if (dataformat == "rscript") {
   source("./data-raw/input_tract_data.R")
 }
